@@ -25,7 +25,7 @@ const Login = () => {
                 }}
             >
                 <Typography variant="h4" component="h1" sx={{ color: 'text.primary', fontWeight: 'bold'}}>
-                    Welcome Back!
+                    Create Account!
                 </Typography>
                 <Box component="form" sx={{ width: '100%' }}>
                     <TextField
@@ -44,13 +44,21 @@ const Login = () => {
                         variant="outlined"
                         margin="normal"
                     />
+                    <TextField
+                        fullWidth
+                        label="Confirm Password"
+                        type="password"
+                        placeholder="******************"
+                        variant="outlined"
+                        margin="normal"
+                    />
                     <Button
                         fullWidth
                         variant="contained"
                         color="primary"
                         sx={{ marginTop: 2 }}
                     >
-                        Login
+                        Create Account
                     </Button>
                 </Box>
             </Container>

@@ -1,0 +1,41 @@
+:root {
+  --primary: hsla(176, 100%, 19%, 1);
+  --secondary: hsla(224, 36%, 56%, 1);
+  --dark: #242526;
+  --bg: #edf2f7;
+  --sidebar-width: 280px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+main {
+  background-color: var(--bg);
+  min-height: 100vh;
+  padding: 50px;
+  transition: all ease-in-out 0.3s;
+}
+
+#main-wide {
+  margin-left: var(--sidebar-width);
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  color: var(--dark);
+  font-family: Roboto, sans-serif;
+}
+
+svg {
+  stroke: var(--dark);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

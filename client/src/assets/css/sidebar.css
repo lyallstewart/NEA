@@ -1,0 +1,116 @@
+#sidebar {
+  width: var(--sidebar-width);
+  background-color: white;
+  height: 100vh;
+  position: fixed;
+  border-right: 1px solid lightgrey;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+#sidebar-brand {
+  height: 62px;
+  border-bottom: 1px solid lightgrey;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  grid-template-rows: 25px 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "logo title"
+    "logo title";
+}
+#sidebar-brand-logo {
+  grid-area: logo;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#sidebar-brand div {
+  height: 50px;
+  grid-area: title;
+  margin: 0;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 20px;
+  font-family: Raleway, sans-serif;
+  gap: 0;
+}
+
+#sidebar-brand-title {
+  font-weight: 700;
+  padding: 0;
+  margin: 0;
+}
+
+#sidebar-brand-name {
+  padding: 0;
+  margin: 0;
+}
+
+#sidebar-account {
+  border-top: 1px solid lightgrey;
+  padding-top: 12px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 7px;
+}
+
+.sidebar-nav a, .sidebar-account a {
+  padding: 10px;
+  margin: 5px 0;
+  color: var(--dark);
+  text-decoration: none;
+  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  transition: background-color ease-in 0.2s;
+  border-radius: 4px;
+}
+
+.sidebar-nav-icon {
+  height: 25px;
+  width: 25px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+/* Hover State */
+.sidebar-nav a:hover {
+  background-color: var(--bg);
+}
+
+/* Active State */
+.sidebar-nav a.active {
+  background-color: var(--primary);
+  color: white;
+  fill: white;
+  stroke: white;
+}
+
+.sidebar-nav a.active .icon {
+  color: white;
+  stroke: white;
+}
+
+.sidebar-nav a.active:hover {
+  color: white;
+  background-color: var(--primary);
+}
+
+.sidebar-nav a.sidebar-account-button {
+  background-color: var(--bg);
+  color: var(--dark);
+}

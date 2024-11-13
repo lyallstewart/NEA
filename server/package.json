@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/lyallstewart/nea#readme",
   "dependencies": {
-    "express": "^4.21.0",
     "nodemon": "^3.1.4",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"

@@ -2,6 +2,7 @@
 Routing, a request queue and more robust error handling. */
 
 const http = require('http');
+const url = require('url');
 const Request = require('./request.js');
 
 class Server {
@@ -10,11 +11,14 @@ class Server {
   #server;
   #requestQueue;
   #pendingRequest;
+  #allowedOrigins;
 
-  constructor(port) {
+  constructor(port, allowedOrigins) {
     this.#port = port || 3001;
     this.#server = null;
     this.#requestQueue = [];
+    this.#allowedOrigins = allowedOrigins;
+    this.router = null;
   }
 
   startServer() {
@@ -27,6 +31,10 @@ class Server {
       console.log(`Server running on port ${this.#port}`);
       this.processQueue();
     });
+  }
+
+  registerRouter(router) {
+    this.router = router;
   }
 
   addRequestToQueue(request) {
@@ -43,7 +51,12 @@ class Server {
     while (true) {
       while (this.#requestQueue.length > 0) {
         const request = this.#requestQueue.shift();
-        await request.handleRequest();
+
+        const allowedOrigin = this.#allowedOrigins.includes(request.origin) ? origin : '*';
+        // If not a preflight request, continue handling.
+        if(request.handleCORS(allowedOrigin)) {
+          await this.router.handleRequest(request, request.url)
+        }
       }
 
       // Wait until a new request arrives

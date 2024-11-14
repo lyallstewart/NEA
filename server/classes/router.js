@@ -41,7 +41,6 @@ class Router {
         return false;
       }
     }
-
     const handlerFn = curr.handlers[method];
     const middleware = curr.middleware[method];
     if (handlerFn) {
@@ -57,10 +56,8 @@ class Router {
       request.sendError({code: 404, message: 'Route Not Found'});
       return;
     }
-
     const { handlerFn, middleware, routeParams } = matchedHandler;
     request.params = routeParams;
-
     // Execute all middleware first. Middleware have a next param, if this is not called each time, the chain ends.
     for (const mwFunction of middleware) {
       const nextCalled = await new Promise((resolve) => mwFunction(request, resolve));

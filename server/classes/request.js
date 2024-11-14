@@ -71,7 +71,6 @@ class Request {
   }
 
   // ---- Methods to handle responses to the client ----
-
   sendError({ code, message }) {
     this.setCookies();
     this.#res.writeHead(code);

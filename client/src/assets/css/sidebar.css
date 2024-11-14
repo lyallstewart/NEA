@@ -16,7 +16,7 @@
   display: grid;
   grid-template-columns: 50px 1fr;
   grid-template-rows: 25px 1fr;
-  gap: 0px 0px;
+  gap: 0;
   grid-template-areas:
     "logo title"
     "logo title";
@@ -71,12 +71,12 @@
   color: var(--dark);
   text-decoration: none;
   font-family: Roboto, sans-serif;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 500;
   vertical-align: middle;
   display: flex;
   align-items: center;
-  transition: background-color ease-in 0.2s;
+  transition: background-color ease-in 175ms;
   border-radius: 4px;
 }
 

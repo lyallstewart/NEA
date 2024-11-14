@@ -6,6 +6,9 @@ import App from './App.jsx'
 import Home from './pages/Home.jsx'
 
 import "./assets/css/index.css";
+import RequestClub from "./pages/RequestClub.jsx";
+import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
 
 /* Define which app routes should be directed to which components */
 const router = createBrowserRouter([
@@ -22,6 +25,10 @@ const router = createBrowserRouter([
         element: <></>
       },
       {
+        path: '/request',
+        element: <RequestClub />
+      },
+      {
         path: '/events',
         element: <></>
       },
@@ -35,6 +42,15 @@ const router = createBrowserRouter([
       }
     ]
   },
+  /* Routes that are not children are rendered outside the Outlet, hence no Sidebar */
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/signup',
+    element: <Signup />,
+  }
 ])
 
 createRoot(document.getElementById('root')).render(

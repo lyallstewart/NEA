@@ -12,27 +12,4 @@ let db = new sqlite3.Database("./database/database.db", (err) => {
 
 runCreateAllTables(db)
 
-class Database {
-  #db;
-  constructor(filename) {
-
-  }
-
-  connect() {
-
-  }
-
-  exec() {
-
-  }
-
-  runInitScript() {
-
-  }
-
-  #handleError() {
-
-  }
-}
-
 module.exports = db;

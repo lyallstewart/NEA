@@ -1,61 +1,48 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import "../assets/css/auth_pages.css";
+import emsLogoFull from "../assets/img/ems-logo-full.jpg";
+import {useState} from "react";
 
 const Login = () => {
-    return (
-        <Box 
-            sx={{
-                height: '100vh',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'grey.100'
-            }}
-        >
-            <Container
-                maxWidth="sm"
-                sx={{
-                    backgroundColor: 'white',
-                    borderRadius: 2,
-                    boxShadow: 3,
-                    padding: 3,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center'
-                }}
-            >
-                <Typography variant="h4" component="h1" sx={{ color: 'text.primary', fontWeight: 'bold'}}>
-                    Welcome Back!
-                </Typography>
-                <Box component="form" sx={{ width: '100%' }}>
-                    <TextField
-                        fullWidth
-                        label="Email"
-                        type="email"
-                        placeholder="me@exe-coll.ac.uk"
-                        variant="outlined"
-                        margin="normal"
-                    />
-                    <TextField
-                        fullWidth
-                        label="Password"
-                        type="password"
-                        placeholder="******************"
-                        variant="outlined"
-                        margin="normal"
-                    />
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        sx={{ marginTop: 2 }}
-                    >
-                        Login
-                    </Button>
-                </Box>
-            </Container>
-        </Box>
-    );
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  return (
+    <div className="auth-wrapper">
+      <div className="auth-content">
+        <div className="auth-content-brand">
+          <img src={emsLogoFull} alt="EMS Logo" className="auth-logo" />
+        </div>
+        <hr />
+        <div className="auth-content-main">
+          <h1>Welcome Back!</h1>
+          <form>
+            <div className="input-group">
+              <label htmlFor="username">Username</label>
+              <input
+                required
+                type="email"
+                name="username"
+                placeholder="me@exe-coll.ac.uk"
+                value={username}
+                onChange={e => setUsername(e.value)}
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                required
+                type="password"
+                name="password"
+                placeholder="***********"
+                value={password}
+                onChange={e => setPassword(e.value)}
+              />
+            </div>
+            <input className="btn-primary" type="submit" value="Login"/>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Login;

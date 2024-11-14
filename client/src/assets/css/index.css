@@ -1,7 +1,7 @@
 :root {
   --primary: hsla(176, 100%, 19%, 1);
   --secondary: hsla(224, 36%, 56%, 1);
-  --dark: #242526;
+  --dark: #303030;
   --bg: #edf2f7;
   --sidebar-width: 280px;
 }
@@ -19,7 +19,8 @@ html, body {
 main {
   background-color: var(--bg);
   min-height: 100vh;
-  padding: 50px;
+  padding: 10px 200px;
+  margin-left: var(--sidebar-width);
   transition: all ease-in-out 0.3s;
 }
 
@@ -27,9 +28,14 @@ main {
   margin-left: var(--sidebar-width);
 }
 
-p, h1, h2, h3, h4, h5, h6 {
+p {
   color: var(--dark);
   font-family: Roboto, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Montserrat, sans-serif;
+  color: var(--dark);
 }
 
 svg {

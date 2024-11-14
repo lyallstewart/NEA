@@ -1,4 +1,3 @@
-const url = require('url');
 const Route = require('./route');
 
 class Router {

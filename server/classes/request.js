@@ -6,11 +6,16 @@ class Request {
   #req;
   #res;
   #params;
-
+  #cookies;
+  #outgoingCookies;
+  #session;
   constructor(req, res) {
     this.#req = req;
     this.#res = res;
     this.#params = {};
+    this.#cookies = {};
+    this.#outgoingCookies = [];
+    this.#session = false;
     // All responses will be JSON, so indicate straight away.
     this.#res.setHeader('Content-Type', 'application/json');
   }
@@ -40,13 +45,43 @@ class Request {
     return true; // Request is not preflight, so continue.
   }
 
+  parseCookies() {
+    // Called at the very start, before any handling takes place
+    if(this.#req.headers.cookie) {
+      this.#req.headers.cookie.split(';').forEach(cookie => {
+        const [key, value] = cookie.split('=').map(x => x.trim());
+        this.#cookies[key] = value;
+      })
+    }
+  }
+
+  setCookies() {
+    // Called at the very end, just before sending a request.
+    if(!this.#outgoingCookies) return;
+    const cookies = []
+    this.#outgoingCookies.forEach(c => {
+      const [[key, value]] = Object.entries(c)
+      console.log(c)
+      let cookie = `${key}=${encodeURIComponent(value)}`;
+      cookie += `; Max-Age=${60 * 60 * 24}`; // One day
+      cookie += `; Path=/`;
+      cookies.push(cookie);
+    });
+    this.#res.setHeader('Set-Cookie', cookies);
+  }
+
+  // ---- Methods to handle responses to the client ----
+
   sendError({ code, message }) {
+    this.setCookies();
     this.#res.writeHead(code);
     this.#res.write(JSON.stringify({ error: true, msg: message }));
     this.#res.end();
   }
 
   sendSuccessResponse(body) {
+    this.#outgoingCookies.push({"key": "value"})
+    this.setCookies();
     this.#res.writeHead(200);
     this.#res.write(JSON.stringify(body));
     this.#res.end();

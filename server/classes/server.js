@@ -55,6 +55,7 @@ class Server {
         const allowedOrigin = this.#allowedOrigins.includes(request.origin) ? origin : '*';
         // If not a preflight request, continue handling.
         if(request.handleCORS(allowedOrigin)) {
+          request.parseCookies();
           await this.router.handleRequest(request, request.url)
         }
       }

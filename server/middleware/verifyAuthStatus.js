@@ -1,4 +1,0 @@
-const verifyAuthStatus = (request, next) => {
-
-}
-

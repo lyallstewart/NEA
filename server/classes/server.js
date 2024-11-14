@@ -12,10 +12,10 @@ class Server {
   #requestQueue;
   #pendingRequest;
   #allowedOrigins;
-
   constructor(port, allowedOrigins) {
     this.#port = port || 3001;
     this.#server = null;
+    this.database = null;
     this.#requestQueue = [];
     this.#allowedOrigins = allowedOrigins;
     this.router = null;
@@ -37,6 +37,11 @@ class Server {
     this.router = router;
   }
 
+  registerDatabase(database) {
+    this.database = database;
+  }
+
+
   addRequestToQueue(request) {
     this.#requestQueue.push(request);
 
@@ -51,11 +56,26 @@ class Server {
     while (true) {
       while (this.#requestQueue.length > 0) {
         const request = this.#requestQueue.shift();
-
         const allowedOrigin = this.#allowedOrigins.includes(request.origin) ? origin : '*';
         // If not a preflight request, continue handling.
         if(request.handleCORS(allowedOrigin)) {
           request.parseCookies();
+          // Extract the session from cookies, fetch user info from the DB, and attach to request.
+          const sid = request.getSession();
+          console.log(sid);
+          if(sid) {
+            try {
+              const session = await this.database.get(`SELECT * FROM sessions WHERE sid = ?`, [sid])
+              if (session) {
+                const user = await this.database.get(`SELECT * FROM Users WHERE email = ?`, [session.uemail]);
+                if (user) {
+                  request.session = {id: sid, user: user};
+                }
+              }
+            } catch {
+              request.sendError({code: 500, message: "Internal Server Error"})
+            }
+          }
           await this.router.handleRequest(request, request.url)
         }
       }

@@ -1,11 +1,17 @@
 const Server = require('./classes/server');
 const Router = require("./classes/router.js");
+const openDb = require("../server/database/db.js");
 
 const NEAServer = new Server(3001, ['localhost']);
 
 const router = new Router()
-
 NEAServer.registerRouter(router);
-require('./routes/usersRouter.js')(NEAServer.router);
 
-NEAServer.startServer()
+let db;
+async function initDb() { db = await openDb(); }
+initDb().then(async () => {
+  console.log('Database init success');
+  NEAServer.registerDatabase(db)
+  require('./routes/usersRouter.js')(NEAServer.router, NEAServer.database);
+  NEAServer.startServer()
+});

@@ -51,6 +51,8 @@ class Router {
   }
 
   async handleRequest(request, routeUrl) {
+    await request.bodyReady;
+
     const matchedHandler = this.matchRoute(request.method, routeUrl)
     if (!matchedHandler) {
       request.sendError({code: 404, message: 'Route Not Found'});

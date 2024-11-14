@@ -15,7 +15,9 @@ class Request {
     this.#params = {};
     this.#cookies = {};
     this.#outgoingCookies = [];
-    this.#session = false;
+    this.session = false;
+    this.bodyReady = this.processBody();
+
     // All responses will be JSON, so indicate straight away.
     this.#res.setHeader('Content-Type', 'application/json');
   }
@@ -24,8 +26,28 @@ class Request {
   get url() { return this.#req.url; }
   get origin() { return this.#req.headers.origin; }
   get params() { return this.#params }
-  set params(params) {
-    this.#params = params
+  set params(params) { this.#params = params }
+
+  processBody() {
+    return new Promise((resolve, reject) => {
+      if (["POST", "PUT", "DELETE"].includes(this.#req.method)) {
+        let bodyBuffer = '';
+        this.#req.on('data', dataChunk => {
+          bodyBuffer += dataChunk.toString();
+        });
+        this.#req.on('end', () => {
+          try {
+            this.body = JSON.parse(bodyBuffer);
+          } catch (error) {
+            this.body = bodyBuffer;
+          }
+          resolve();
+        });
+        this.#req.on('error', reject);
+      } else {
+        resolve(); // Body not expected for GET etc
+      }
+    });
   }
 
   handleCORS(validOrigin) {
@@ -55,15 +77,32 @@ class Request {
     }
   }
 
+  getSession() {
+    console.log(this.#cookies);
+    const sessionID = this.#cookies?.sid;
+    return sessionID ? sessionID : false;
+  }
+
+  setSession(uuid) {
+    this.#outgoingCookies.push({
+      "sid": uuid, // Session ID
+    })
+    console.log(this.#outgoingCookies)
+  }
+
   setCookies() {
     // Called at the very end, just before sending a request.
     if(!this.#outgoingCookies) return;
     const cookies = []
     this.#outgoingCookies.forEach(c => {
       const [[key, value]] = Object.entries(c)
-      console.log(c)
       let cookie = `${key}=${encodeURIComponent(value)}`;
-      cookie += `; Max-Age=${60 * 60 * 24}`; // One day
+      if (key === "sid" && value === 0) {
+        // Allow deletion of session cookies using a value of 0
+        cookie += `; Expires=${Date.now()}`;
+      } else {
+        cookie += `; Max-Age=${60 * 60 * 24}`; // One day
+      }
       cookie += `; Path=/`;
       cookies.push(cookie);
     });
@@ -79,7 +118,6 @@ class Request {
   }
 
   sendSuccessResponse(body) {
-    this.#outgoingCookies.push({"key": "value"})
     this.setCookies();
     this.#res.writeHead(200);
     this.#res.write(JSON.stringify(body));

@@ -27,6 +27,7 @@ class Router {
   }
 
   matchRoute(method, url) {
+    // Remove route segments that are false when bool coerced, i.e. ""
     const routeSegments = url.split('/').filter(segment => !!segment);
     const routeParams = [];
     let curr = this.#routeTrie;
@@ -51,6 +52,7 @@ class Router {
   }
 
   async handleRequest(request, routeUrl) {
+    // Don't parse the request until the full body content has arrived
     await request.bodyReady;
 
     const matchedHandler = this.matchRoute(request.method, routeUrl)
@@ -65,7 +67,6 @@ class Router {
       const nextCalled = await new Promise((resolve) => mwFunction(request, resolve));
       if (!nextCalled) { return; }
     }
-
     await handlerFn(request);
   }
 }

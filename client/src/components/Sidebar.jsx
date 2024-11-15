@@ -2,7 +2,7 @@ import "../assets/css/sidebar.css";
 import {NavLink} from "react-router-dom";
 
 import EMSLogo from "../assets/img/ems-logo.jpeg"
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {UserContext} from "../context.jsx";
 import axios from "axios";
 import {useNavigate} from "react-router";
@@ -13,7 +13,6 @@ const Sidebar = () => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-
     axios({
       method: 'POST',
       url: `${import.meta.env.VITE_BASE_URL}/users/logout`,
@@ -25,6 +24,10 @@ const Sidebar = () => {
         navigate('/login');
       })
   }
+
+  useEffect(() => {
+    console.log(user)
+  }, [user]);
 
   return (
     <nav id="sidebar">

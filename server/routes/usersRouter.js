@@ -8,7 +8,7 @@ module.exports = (router, db) => {
     if(request.session) {
       request.sendSuccessResponse({
         isAuthenticated: true,
-        user: request.session,
+        user: request.session.user,
       });
     } else {
       request.sendSuccessResponse({

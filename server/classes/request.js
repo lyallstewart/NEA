@@ -78,7 +78,6 @@ class Request {
   }
 
   getSession() {
-    console.log(this.#cookies);
     const sessionID = this.#cookies?.sid;
     return sessionID ? sessionID : false;
   }
@@ -87,7 +86,6 @@ class Request {
     this.#outgoingCookies.push({
       "sid": uuid, // Session ID
     })
-    console.log(this.#outgoingCookies)
   }
 
   setCookies() {
@@ -104,6 +102,7 @@ class Request {
         cookie += `; Max-Age=${60 * 60 * 24}`; // One day
       }
       cookie += `; Path=/`;
+      cookie += `; HttpOnly`;
       cookies.push(cookie);
     });
     this.#res.setHeader('Set-Cookie', cookies);

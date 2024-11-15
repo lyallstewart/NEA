@@ -20,6 +20,8 @@ const App = () => {
       if (!res.data.isAuthenticated) {
         setUser({isAuthenticated: false, user: null})
         navigate('/login')
+      } else {
+        setUser({isAuthenticated: true, user: res.data.user})
       }
     })
   }, []);

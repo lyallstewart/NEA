@@ -3,10 +3,18 @@ const bcrypt = require('bcrypt')
 const crypto = require("crypto");
 
 module.exports = (router, db) => {
+  // --- GET CURRENT SESSION ---
   router.addRoute('GET', '/users/getCurrentUser', async (request) => {
+    if(request.session) {
       request.sendSuccessResponse({
-      message: request.session,
-    });
+        isAuthenticated: true,
+        user: request.session,
+      });
+    } else {
+      request.sendSuccessResponse({
+        isAuthenticated: false
+      })
+    }
   }, []);
 
   // ---SIGNUP---
@@ -42,7 +50,6 @@ module.exports = (router, db) => {
     })
   }, [])
 
-
   // ---LOGIN---
   router.addRoute('POST', '/users/login', async (request) => {
     const { username, password } = request.body;
@@ -59,10 +66,11 @@ module.exports = (router, db) => {
           request.setSession(sessionUUID)
 
           request.sendSuccessResponse({
-            message: 'Auth success'
+            success: true,
+            user: user
           })
         } else {
-          request.sendError({code: 401, message: 'Incorrect Password'});
+          request.sendError({code: 404, message: 'Incorrect Password'});
         }
       });
     } catch {

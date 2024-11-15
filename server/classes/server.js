@@ -17,7 +17,7 @@ class Server {
     this.#server = null;
     this.database = null;
     this.#requestQueue = [];
-    this.#allowedOrigins = allowedOrigins;
+    this.#allowedOrigins = ['http://localhost:5173'];
     this.router = null;
   }
 
@@ -56,13 +56,12 @@ class Server {
     while (true) {
       while (this.#requestQueue.length > 0) {
         const request = this.#requestQueue.shift();
-        const allowedOrigin = this.#allowedOrigins.includes(request.origin) ? origin : '*';
+        const allowedOrigin = this.#allowedOrigins.includes(request.origin) ? request.origin : '*';
         // If not a preflight request, continue handling.
         if(request.handleCORS(allowedOrigin)) {
           request.parseCookies();
           // Extract the session from cookies, fetch user info from the DB, and attach to request.
           const sid = request.getSession();
-          console.log(sid);
           if(sid) {
             try {
               const session = await this.database.get(`SELECT * FROM sessions WHERE sid = ?`, [sid])

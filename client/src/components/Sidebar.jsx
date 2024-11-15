@@ -2,8 +2,30 @@ import "../assets/css/sidebar.css";
 import {NavLink} from "react-router-dom";
 
 import EMSLogo from "../assets/img/ems-logo.jpeg"
+import {useContext} from "react";
+import {UserContext} from "../context.jsx";
+import axios from "axios";
+import {useNavigate} from "react-router";
 
 const Sidebar = () => {
+  const {user, setUser} = useContext(UserContext)
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+
+    axios({
+      method: 'POST',
+      url: `${import.meta.env.VITE_BASE_URL}/users/logout`,
+      withCredentials: true,
+      body: {}
+    })
+      .then(res => {
+        setUser({isAuthenticated: false, user: null})
+        navigate('/login');
+      })
+  }
+
   return (
     <nav id="sidebar">
       <div id="sidebar-upper">
@@ -94,7 +116,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div id="sidebar-account" className="sidebar-nav">
-        <a>
+        <a onClick={handleLogout}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -118,7 +140,7 @@ const Sidebar = () => {
             <path d="M6 21v-1a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v1" />
             <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z" />
           </svg>
-          Lyall Stewart
+          {user.user.email}
         </a>
       </div>
     </nav>

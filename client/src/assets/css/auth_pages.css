@@ -51,3 +51,11 @@
 .auth-content form {
     width: 100%;
 }
+
+.auth-error {
+    width: 100%;
+    text-align: center;
+    color: #f21242aa;
+    font-size: 16px;
+    height: 14px;
+}

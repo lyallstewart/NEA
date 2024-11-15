@@ -1,10 +1,58 @@
 import "../assets/css/auth_pages.css";
 import emsLogoFull from "../assets/img/ems-logo-full.jpg";
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import axios from "axios";
+import {useNavigate} from "react-router";
+import {UserContext} from "../context.jsx";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate()
+  const {user, setUser} = useContext(UserContext)
+
+
+  useEffect(() => {
+    axios({
+      method: 'GET',
+      withCredentials: true,
+      url: `${import.meta.env.VITE_BASE_URL}/users/getCurrentUser`
+    }).then(res => {
+      if (res.data.isAuthenticated) {
+        setUser({isAuthenticated: true, user: res.data.user})
+        navigate('/')
+      }
+    })
+  }, []);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    axios({
+      method: 'POST',
+      url: `${import.meta.env.VITE_BASE_URL}/users/login`,
+      withCredentials: true,
+      data: {
+        username,
+        password
+      }
+    })
+      .then(res => {
+        if (res.data.success === true) {
+          setUser({isAuthenticated: true, user: res.data.user})
+          navigate('/');
+        }
+      })
+      .catch(err => {
+        if(err.response.status === 403) {
+          setError('Incorrect username or password!')
+        } else {
+          setError('Oh no! Something went wrong')
+        }
+      })
+  }
+
   return (
     <div className="auth-wrapper">
       <div className="auth-content">
@@ -14,7 +62,7 @@ const Login = () => {
         <hr />
         <div className="auth-content-main">
           <h1>Welcome Back!</h1>
-          <form>
+          <form onSubmit={handleLogin}>
             <div className="input-group">
               <label htmlFor="username">Username</label>
               <input
@@ -23,7 +71,7 @@ const Login = () => {
                 name="username"
                 placeholder="me@exe-coll.ac.uk"
                 value={username}
-                onChange={e => setUsername(e.value)}
+                onChange={e => setUsername(e.target.value)}
               />
             </div>
             <div className="input-group">
@@ -34,11 +82,12 @@ const Login = () => {
                 name="password"
                 placeholder="***********"
                 value={password}
-                onChange={e => setPassword(e.value)}
+                onChange={e => setPassword(e.target.value)}
               />
             </div>
             <input className="btn-primary" type="submit" value="Login"/>
           </form>
+          <p className="auth-error">{error ? error : ""}</p>
         </div>
       </div>
     </div>

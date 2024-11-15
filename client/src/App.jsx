@@ -1,10 +1,29 @@
 import Sidebar from './components/Sidebar'
-import { Outlet } from 'react-router'
+import {Outlet, useNavigate} from 'react-router'
 
 import "./assets/css/buttons.css";
 import "./assets/css/forms.css";
+import {useContext, useEffect} from "react";
+import {UserContext} from "./context.jsx";
+import axios from "axios";
 
 const App = () => {
+  const { user, setUser } = useContext(UserContext)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    axios({
+      method: 'GET',
+      withCredentials: true,
+      url: `${import.meta.env.VITE_BASE_URL}/users/getCurrentUser`
+    }).then(res => {
+      if (!res.data.isAuthenticated) {
+        setUser({isAuthenticated: false, user: null})
+        navigate('/login')
+      }
+    })
+  }, []);
+
   return (
     <>
         <Sidebar />

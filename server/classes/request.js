@@ -54,10 +54,10 @@ class Request {
     /* CORS is a security mechanism limiting access to only authorised clients
        Formed of preflight request checking if actual request is allowed.
        If preflight, stop handling as no request content. If not, proceed to req handler. */
-
     this.#res.setHeader('Access-Control-Allow-Origin', validOrigin);
     this.#res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     this.#res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+    this.#res.setHeader('Access-Control-Allow-Credentials', true)
 
     if(this.method === 'OPTIONS') {
       this.#res.statusCode = 204 // No Content

@@ -11,7 +11,7 @@ let db;
 async function initDb() { db = await openDb(); }
 initDb().then(async () => {
   console.log('Database init success');
-  NEAServer.registerDatabase(db)
+  NEAServer.registerDatabase(db, ['http://localhost:5173/'])
   require('./routes/usersRouter.js')(NEAServer.router, NEAServer.database);
   NEAServer.startServer()
 });

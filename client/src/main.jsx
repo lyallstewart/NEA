@@ -9,6 +9,7 @@ import "./assets/css/index.css";
 import RequestClub from "./pages/RequestClub.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
+import {UserProvider} from "./context.jsx";
 
 /* Define which app routes should be directed to which components */
 const router = createBrowserRouter([
@@ -55,6 +56,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   </StrictMode>,
 )

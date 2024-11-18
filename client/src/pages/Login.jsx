@@ -4,6 +4,7 @@ import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router";
 import {UserContext} from "../context.jsx";
+import {NavLink} from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -11,7 +12,6 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate()
   const {user, setUser} = useContext(UserContext)
-
 
   useEffect(() => {
     axios({
@@ -62,6 +62,8 @@ const Login = () => {
         <hr />
         <div className="auth-content-main">
           <h1>Welcome Back!</h1>
+          <NavLink className="auth-toggle" to="/signup">Don&apos;t have an account? Sign up instead.</NavLink>
+
           <form onSubmit={handleLogin}>
             <div className="input-group">
               <label htmlFor="username">Username</label>
@@ -87,7 +89,7 @@ const Login = () => {
             </div>
             <input className="btn-primary" type="submit" value="Login"/>
           </form>
-          <p className="auth-error">{error ? error : ""}</p>
+          <p className="form-error">{error ? error : ""}</p>
         </div>
       </div>
     </div>

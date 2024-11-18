@@ -20,14 +20,14 @@ module.exports = (router, db) => {
   // ---SIGNUP---
   router.addRoute('POST', '/users/signup', async (request) => {
     // Check body is sent with proper values
-    const { username, password } = request.body;
-    if (!username || !password) {
-      request.sendError({code: 400, message: 'Username and password are required'});
+    const { email, password, firstName, lastName } = request.body;
+    if (!email || !password || !firstName || !lastName) {
+      request.sendError({code: 400, message: 'Email, password and names are required'});
       return;
     }
 
     // Check the user doesn't already exist
-    const user = await db.get('SELECT * FROM Users WHERE email = ?', [username]);
+    const user = await db.get('SELECT * FROM Users WHERE email = ?', [email]);
     if(user) {
       request.sendError({code: 403, message: 'User with this email already exists'})
       return;
@@ -39,11 +39,14 @@ module.exports = (router, db) => {
       bcrypt.hash(password, salt, async (err, hash) => {
         if(err) request.sendError({code: 500, message: 'Internal Server Error'});
         try {
-          await db.run(`INSERT INTO Users (email, password_hash) VALUES (?, ?)`, [username, hash]);
+          await db.run(`INSERT INTO Users (id, email, passwordHash, firstName, lastName, isStaff, isSuperuser) 
+                        VALUES (?, ?, ?, ?, ?, ?, ? )`,
+                        [null, email, hash, firstName, lastName, false, false]);
           request.sendSuccessResponse({
             message: 'User successfully registered',
           })
         } catch (e) {
+          console.error(e);
           request.sendError({code: 500, message: 'Internal Server Error'});
         }
       })
@@ -59,7 +62,7 @@ module.exports = (router, db) => {
         request.sendError({code: 403, message: 'User with this email does not exist.'})
         return;
       }
-      bcrypt.compare(password, user.password_hash, async (err, result) => {
+      bcrypt.compare(password, user.passwordHash, async (err, result) => {
         if (result === true) { //As much as this annoys me, if (result) does not suffice as other truthy vals may be passed.
           const sessionUUID = crypto.randomUUID();
           await db.run(`INSERT INTO Sessions (sid, uemail) VALUES (?, ?)`, [sessionUUID, user.email]);

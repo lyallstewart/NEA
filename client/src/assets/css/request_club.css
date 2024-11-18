@@ -1,3 +1,45 @@
 #club-request-form {
     margin-bottom: 50px;
 }
+
+.club-request-entry {
+    width: 100%;
+    background-color: white;
+    border: 1px solid lightgray;
+    margin: 10px 0;
+}
+
+.club-request-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.club-request-field {
+    border: 1px solid lightgray;
+    border-left: none;
+    border-bottom: none;
+    width: 100%;
+    margin: 0;
+}
+
+.club-request-field:last-child {
+    border-right: none;
+}
+
+.club-request-field p {
+    font-weight: bold;
+    font-family: Montserrat, sans-serif;
+}
+
+.club-request-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    margin: 0;
+}
+
+.club-request-header h3 {
+    margin: 0;
+}

@@ -26,7 +26,7 @@ const Sidebar = () => {
   }
 
   useEffect(() => {
-    console.log(user)
+    console.log(user.user.isSuperuser)
   }, [user]);
 
   return (
@@ -64,18 +64,6 @@ const Sidebar = () => {
             </svg>
             All Clubs
           </NavLink>
-          <NavLink to="/request">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              className="icon sidebar-nav-icon"
-            >
-              <path d="M8 9h8"/>
-              <path d="M8 13h6"/>
-              <path d="M9 18h-3a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-3l-3 3l-3 -3z"/>
-            </svg>
-            Club Requests
-          </NavLink>
           <NavLink to="/events">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -105,17 +93,32 @@ const Sidebar = () => {
             </svg>
             Settings
           </NavLink>
-          <NavLink to="/admin">
+          <NavLink to="/request">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               className="icon sidebar-nav-icon"
             >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-              <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5"/>
+              <path d="M8 9h8"/>
+              <path d="M8 13h6"/>
+              <path d="M9 18h-3a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-3l-3 3l-3 -3z"/>
             </svg>
-            Admin
+            Club Requests
           </NavLink>
+          { user.user.isSuperuser ? (
+            <NavLink to="/admin">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className="icon sidebar-nav-icon"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5"/>
+              </svg>
+              Admin
+            </NavLink>
+          ) : <></>
+          }
         </div>
       </div>
       <div id="sidebar-account" className="sidebar-nav">
@@ -143,7 +146,7 @@ const Sidebar = () => {
             <path d="M6 21v-1a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v1" />
             <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z" />
           </svg>
-          {user.user.email}
+          {user.user.firstName + " " + user.user.lastName}
         </a>
       </div>
     </nav>

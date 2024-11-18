@@ -1,5 +1,7 @@
 import "../assets/css/request_club.css"
-import {useState} from "react";
+
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 const RequestClub = () => {
   const [name, setName] = useState("");
@@ -7,9 +9,54 @@ const RequestClub = () => {
   const [fMembers, setFMembers] = useState("");
   const [resources, setResources] = useState("");
   const [time, setTime] = useState("");
+  const [msg, setMsg] = useState("");
+  const [msgIsError, setMsgIsError] = useState(false);
+  const [userReqs, setUserReqs] = useState([])
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    axios({
+      method: 'POST',
+      withCredentials: true,
+      data: {
+        name,
+        summary,
+        fMembers,
+        resources,
+        time
+      },
+      url: `${import.meta.env.VITE_BASE_URL}/requests/submit/`,
+    }).then(res => {
+      setMsgIsError(false);
+      setMsg("Submitted successfully")
+      setSummary("")
+      setFMembers("")
+      setResources("")
+      setTime("")
+      setName("")
+      getRequests();
+    }).catch(err => {
+      setMsgIsError(true);
+      setMsg("Something went wrong!")
+    })
+  }
+
+  useEffect(() => {
+    getRequests();
+  }, []);
+
+  const getRequests = () => {
+    axios({
+      method: 'GET',
+      withCredentials: true,
+      url: `${import.meta.env.VITE_BASE_URL}/requests/getByUser`
+    }).then(res => {
+      if(res.data.success) {
+        setUserReqs(res.data.requests);
+      }
+    }).catch(err => {
+
+    })
   }
 
   return (
@@ -72,13 +119,36 @@ const RequestClub = () => {
           />
         </div>
         <input className="btn-primary" type="submit" value="Request Club"/>
+      <p className={msgIsError ? "form-error" : "form-success"}>{msg}</p>
       </form>
 
       <h1>Your Requests</h1>
-
+      {
+        userReqs?.length > 0 ? (
+          userReqs.map(req => <ClubRequestEntry request={req} key={req.id} />)
+        ) : (
+          <p>Nothing to display.</p>
+        )
+      }
     </>
   )
 }
 
+const ClubRequestEntry = ({request}) => {
+  const {name, topic, founders, resources, meeting, isPending, isApproved, isDeclined} = request;
+  return (
+    <div className="club-request-entry">
+      <div className="club-request-header">
+        <h3>{name} by {founders}</h3>
+        <p>Status</p>
+      </div>
+      <div className="club-request-content">
+        <p className="club-request-field"><p>Summary</p> {topic}</p>
+        <p className="club-request-field"><p>Resources Needed</p> {resources}</p>
+        <p className="club-request-field"><p>Meeting times</p> {meeting}</p>
+      </div>
+    </div>
+  )
+}
 
 export default RequestClub;

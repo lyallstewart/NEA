@@ -1,4 +1,5 @@
 const verifyAuthStatus = require('../middleware/verifyAuthStatus');
+const verifyAdminStatus = require('../middleware/verifyAdminStatus');
 
 module.exports = (router, db) => {
   // Create a new club request
@@ -11,7 +12,7 @@ module.exports = (router, db) => {
         await db.run(`INSERT INTO club_requests(
           submitting_user, name, topic, resources, meeting, founders, isPending, isDeclined, isApproved, approvingUser) 
           VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [request.session.user.id, name, summary, resources, time, fMembers, 1, 0, 0, null]);
+          [request.session.user.email, name, summary, resources, time, fMembers, 1, 0, 0, null]);
         request.sendSuccessResponse("Club request sent")
       } catch (e) {
         console.error(e);
@@ -22,7 +23,7 @@ module.exports = (router, db) => {
 
   // Get all club requests associated with a single user
   router.addRoute('GET', '/requests/getByUser/', async (request) => {
-    const user = request.session.user.id;
+    const user = request.session.user.email;
     try {
       const reqs = await db.all(`SELECT * FROM club_requests WHERE submitting_user = ?`, [user]);
       if (!reqs) {
@@ -41,16 +42,51 @@ module.exports = (router, db) => {
 
   // Get all club requests (superuser-only)
   router.addRoute('GET', '/requests/all', async (request) => {
-
-  })
+    try {
+      const reqs = await db.all(`SELECT * from club_requests`);
+      request.sendSuccessResponse({
+        success: true,
+        requests: reqs,
+      })
+    } catch(e) {
+      console.error(e);
+      request.sendError({code: 500, message: 'Internal Server Error'})
+    }
+  }, [verifyAdminStatus])
 
   // Submit a club approval (superuser-only)
   router.addRoute('POST', '/requests/approve/:id', async (request) => {
-
+    const [id] = request.params;
+    if(!id) {
+      request.sendError({code: 404, message: "Resource Not Found"});
+      return;
+    }
+    try {
+      await db.run(`UPDATE club_requests SET isPending = 0, isApproved = 1, approvingUser = ? WHERE id = ?`,
+        [request.session.user.email, id])
+      request.sendSuccessResponse({
+        success: true,
+      })
+    } catch (e) {
+      request.sendError({code: 500, message: 'Internal Server Error'});
+    }
   })
 
   // Submit a club rejection (superuser-only)
-  router.addRoute('POST', '/requests/reject/:id', async (request) => {
-
+  router.addRoute('POST', '/requests/decline/:id', async (request) => {
+    const [id] = request.params;
+    if(!id) {
+      request.sendError({code: 404, message: "Resource Not Found"});
+      return;
+    }
+    try {
+      await db.run(`UPDATE club_requests SET isPending = ?, isDeclined = ?, approvingUser = ? WHERE id = ?`,
+        [0, 1, request.session.user.email, id])
+      request.sendSuccessResponse({
+        success: true,
+      })
+    } catch (e) {
+      request.sendError({code: 500, message: 'Internal Server Error'});
+    }
   })
 }

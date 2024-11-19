@@ -2,7 +2,7 @@ const Server = require('./classes/server');
 const Router = require("./classes/router.js");
 const openDb = require("../server/database/db.js");
 
-const NEAServer = new Server(3001, ['localhost']);
+const NEAServer = new Server(3002, ['localhost']);
 
 const router = new Router()
 NEAServer.registerRouter(router);

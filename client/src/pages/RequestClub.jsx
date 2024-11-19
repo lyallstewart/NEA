@@ -1,5 +1,7 @@
 import "../assets/css/request_club.css"
 
+import { BiErrorCircle, BiTimeFive, BiCheckCircle } from "react-icons/bi";
+
 import {useEffect, useState} from "react";
 import axios from "axios";
 
@@ -136,16 +138,26 @@ const RequestClub = () => {
 
 const ClubRequestEntry = ({request}) => {
   const {name, topic, founders, resources, meeting, isPending, isApproved, isDeclined} = request;
+
+  let status;
+  if(isPending) {
+    status = <p className="club-request-status club-request-pending"><BiTimeFive className="icon"/>Pending</p>
+  } else if (isApproved) {
+    status = <p className="club-request-status club-request-approved"><BiCheckCircle className="icon"/>Approved</p>
+  } else if (isDeclined) {
+    status = <p className="club-request-status club-request-declined"><BiErrorCircle className="icon"/>Not Approved</p>
+  }
+
   return (
     <div className="club-request-entry">
       <div className="club-request-header">
-        <h3>{name} by {founders}</h3>
-        <p>Status</p>
+        <h3>{name} <span>by {founders}</span></h3>
+        { status }
       </div>
       <div className="club-request-content">
-        <p className="club-request-field"><p>Summary</p> {topic}</p>
-        <p className="club-request-field"><p>Resources Needed</p> {resources}</p>
-        <p className="club-request-field"><p>Meeting times</p> {meeting}</p>
+        <p className="club-request-field"><p>Summary</p>{topic}</p>
+        <p className="club-request-field"><p>Resources Needed</p>{resources}</p>
+        <p className="club-request-field"><p>Meeting times</p>{meeting}</p>
       </div>
     </div>
   )

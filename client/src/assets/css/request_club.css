@@ -13,14 +13,19 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 0;
 }
 
 .club-request-field {
     border: 1px solid lightgray;
     border-left: none;
     border-bottom: none;
-    width: 100%;
+    width: calc(100% / 3);
     margin: 0;
+    padding: 12px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .club-request-field:last-child {
@@ -30,6 +35,7 @@
 .club-request-field p {
     font-weight: bold;
     font-family: Montserrat, sans-serif;
+    margin: 0;
 }
 
 .club-request-header {
@@ -42,4 +48,94 @@
 
 .club-request-header h3 {
     margin: 0;
+}
+
+.club-request-header span {
+    font-weight: 400;
+}
+
+.club-request-status {
+    font-weight: bold;
+    padding: 5px;
+    margin: 10px;
+    font-size: 16px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+}
+
+.club-request-status svg {
+    font-size: 22px;
+    margin-right: 5px;
+}
+
+.club-request-declined {
+    border: 2px solid #f21242aa;
+    color: #f21242aa;
+}
+
+.club-request-approved {
+    border: 2px solid #06402Baa;
+    color: #06402baa;
+}
+
+.club-request-pending {
+    border: 2px solid #d7840d;
+    color: #d7840d;
+}
+
+.club-request-btns {
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    align-items: center;
+}
+
+.club-request-btns p {
+    font-size: 16px;
+    font-family: Montserrat, sans-serif;
+    font-weight: bold;
+}
+
+.club-request-approve-btn, .club-request-approve-btn p {
+    color: #06402b;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.club-request-approve-btn {
+    border: 2px solid #06402b;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 10px;
+    font-size: 16px;
+}
+
+.club-request-decline-btn, .club-request-decline-btn p {
+    color: #f21242aa;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.club-request-decline-btn {
+    border: 2px solid #f21242aa;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 10px;
+    font-size: 16px;
+}
+
+.club-request-icon {
+    margin-right: 5px;
+    font-size: 24px;
+}
+
+.club-request-decline-btn:hover {
+    cursor: pointer;
+}
+
+.club-request-approve-btn:hover {
+    cursor: pointer;
 }

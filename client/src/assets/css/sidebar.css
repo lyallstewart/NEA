@@ -67,7 +67,7 @@
 
 .sidebar-nav a, .sidebar-account a {
   padding: 10px;
-  margin: 5px 0;
+  margin: 5px;
   color: var(--dark);
   text-decoration: none;
   font-family: Roboto, sans-serif;
@@ -90,6 +90,7 @@
 /* Hover State */
 .sidebar-nav a:hover {
   background-color: var(--bg);
+  cursor: pointer;
 }
 
 /* Active State */
@@ -108,9 +109,25 @@
 .sidebar-nav a.active:hover {
   color: white;
   background-color: var(--primary);
+  cursor: pointer;
 }
 
 .sidebar-nav a.sidebar-account-button {
   background-color: var(--bg);
   color: var(--dark);
+}
+
+#sidebar-admin-separator {
+  border-top: 1px solid lightgrey;
+  outline: none;
+  height: 1px;
+}
+
+#sidebar-admin-header {
+  margin-top: 12px;
+  margin-bottom: -10px;
+  padding-left: 10px;
+  color: var(--dark);
+  font-weight: bold;
+  font-family: Montserrat, sans-serif;
 }

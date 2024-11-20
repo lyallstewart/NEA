@@ -98,14 +98,14 @@
 }
 
 .club-request-approve-btn, .club-request-approve-btn p {
-    color: #06402b;
+    color: #06402baa;
     display: flex;
     align-items: center;
     margin: 0;
 }
 
 .club-request-approve-btn {
-    border: 2px solid #06402b;
+    border: 2px solid #06402baa;
     border-radius: 3px;
     padding: 5px;
     margin: 10px;

@@ -7,7 +7,17 @@ import {UserContext} from "../context.jsx";
 import axios from "axios";
 import {useNavigate} from "react-router";
 
-import { BiHome, BiFolderPlus, BiCalendar, BiCog, BiMessageAltDetail, BiWrench, BiUserCircle, BiLogOut, BiCheckSquare } from "react-icons/bi";
+import {
+  BiHome,
+  BiFolderPlus,
+  BiCalendar,
+  BiCog,
+  BiMessageAltDetail,
+  BiUserCircle,
+  BiLogOut,
+  BiCheckSquare,
+  BiListCheck, BiUserPin
+} from "react-icons/bi";
 
 const Sidebar = () => {
   const {user, setUser} = useContext(UserContext)
@@ -61,11 +71,19 @@ const Sidebar = () => {
         { user.user.isSuperuser ? (
           <>
             <hr id="sidebar-admin-separator" />
-            <p id="sidebar-admin-header"> Admin</p>
+            <p id="sidebar-admin-header">Admin</p>
             <div className="sidebar-nav">
               <NavLink to="/admin/approvals">
                 <BiCheckSquare className="icon sidebar-nav-icon"/>
                 Club Approvals
+              </NavLink>
+              <NavLink to="/admin/logs">
+                <BiListCheck className="icon sidebar-nav-icon" />
+                Audit Logs
+              </NavLink>
+              <NavLink to="/admin/users">
+                <BiUserPin className="icon sidebar-nav-icon" />
+                Manage Users
               </NavLink>
             </div>
           </>

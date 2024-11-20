@@ -11,6 +11,9 @@ import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import ClubApprovals from "./pages/admin/ClubApprovals.jsx";
 import {UserProvider} from "./context.jsx";
+import AuditLogs from "./pages/admin/AuditLogs.jsx";
+import UserManagement from "./pages/admin/UserManagement.jsx";
+import Admin from "./pages/admin/Admin.jsx";
 
 /* Define which app routes should be directed to which components */
 const router = createBrowserRouter([
@@ -39,9 +42,24 @@ const router = createBrowserRouter([
         element: <></>
       },
       {
-        path: '/admin/approvals',
-        element: <ClubApprovals />
+        path: '/admin',
+        element: <Admin />,
+        children: [
+          {
+            path: '/admin/approvals',
+            element: <ClubApprovals />
+          },
+          {
+            path: '/admin/logs',
+            element: <AuditLogs />
+          },
+          {
+            path: '/admin/users',
+            element: <UserManagement />
+          }
+        ]
       }
+
     ]
   },
   /* Routes that are not children are rendered outside the Outlet, hence no Sidebar */

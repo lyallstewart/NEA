@@ -75,7 +75,7 @@ class Server {
               request.sendError({code: 500, message: "Internal Server Error"})
             }
           }
-          console.log(`LOGGING: ${request.method} ${request.url} by ${request.session.user.email ? request.session.user.email : 'Anonymous'}`);
+          console.log(`LOGGING: ${request.method} ${request.url} by ${request.session?.user?.email ? request.session.user.email : 'Anonymous'}`);
           await this.router.handleRequest(request, request.url)
         }
       }

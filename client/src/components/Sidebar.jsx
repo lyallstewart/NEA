@@ -42,7 +42,7 @@ const Sidebar = () => {
       <div id="sidebar-upper">
         <div id="sidebar-brand">
           <img id="sidebar-brand-logo" src={EMSLogo} alt="EMS Logo" />
-          <div>
+          <div id="sidebar-brand-wrapper">
             <p id="sidebar-brand-title">Exeter Maths School</p>
             <p id="sidebar-brand-name">Clubs and Societies</p>
           </div>

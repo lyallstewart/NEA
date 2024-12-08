@@ -64,10 +64,21 @@ module.exports = (router, db) => {
     try {
       await db.run(`UPDATE club_requests SET isPending = 0, isApproved = 1, approvingUser = ? WHERE id = ?`,
         [request.session.user.email, id])
+
+      // Actually create the club, and provision the requesting user as admin
+      const club = await db.get(`SELECT * FROM club_requests WHERE id = ?`, [id]);
+      console.log(club.submitting_user)
+      const result = await db.run(`INSERT INTO clubs(name, summary) VALUES(?, ?)`, [club.name, club.topic]);
+      await db.run(`INSERT INTO 
+           memberships(userID, clubID, isMember, isAdmin, canCreateEvents, canManageMessages, canManageMembers)
+           VALUES(?, ?, ?, ?, ?, ?, ?)`,
+           [club.submitting_user, result.lastID, 1, 1, 1, 1, 1])
+
       request.sendSuccessResponse({
         success: true,
       })
     } catch (e) {
+      console.error(e)
       request.sendError({code: 500, message: 'Internal Server Error'});
     }
   })

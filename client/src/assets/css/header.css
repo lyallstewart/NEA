@@ -1,0 +1,19 @@
+header {
+  background-color: white;
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid lightgrey;
+  height: var(--header-height);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10vw;
+}
+
+header h1 {
+  color: var(--dark);
+  margin: 0;
+  font-size: 24px;
+  text-decoration: underline;
+  text-decoration-color: var(--primary);
+}

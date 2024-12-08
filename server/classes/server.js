@@ -17,7 +17,7 @@ class Server {
     this.#server = null;
     this.database = null;
     this.#requestQueue = [];
-    this.#allowedOrigins = ['http://localhost:5173'];
+    this.#allowedOrigins = allowedOrigins;
     this.router = null;
   }
 

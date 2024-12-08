@@ -5,6 +5,7 @@
     --grey: #404040;
     --bg: #edf2f7;
     --sidebar-width: 280px;
+    --header-height: 62px;
 }
 
 * {
@@ -18,11 +19,14 @@ html, body {
 }
 
 main {
-    background-color: var(--bg);
     min-height: 100vh;
-    padding: 10px 10vw;
     margin-left: var(--sidebar-width);
-    transition: all ease-in-out 0.3s;
+}
+
+.content {
+    padding: 10px 10vw;
+    min-height: calc(100vh - var(--header-height));
+    background-color: var(--bg);
 }
 
 #main-wide {

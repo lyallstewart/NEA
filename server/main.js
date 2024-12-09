@@ -8,10 +8,14 @@ const router = new Router()
 NEAServer.registerRouter(router);
 
 let db;
-async function initDb() { db = await openDb(); }
+
+async function initDb() {
+  db = await openDb();
+}
+
 initDb().then(async () => {
   console.log('Database init success');
-  NEAServer.registerDatabase(db, ['http://localhost:5173/'])
+  NEAServer.registerDatabase(db, ['http://localhost:5173/', process.env.CLIENT_URL])
   require('./routes/usersRouter.js')(NEAServer.router, NEAServer.database);
   require('./routes/clubRequestRouter')(NEAServer.router, NEAServer.database);
   NEAServer.startServer()

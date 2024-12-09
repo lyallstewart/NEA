@@ -11,6 +11,7 @@ const App = () => {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+  /* As App is rendered parent to all routes (except login/signup), the auth check takes place on all routes that require authentication to view.  */
   useEffect(() => {
     axios({
       method: "GET",

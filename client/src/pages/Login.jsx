@@ -46,7 +46,7 @@ const Login = () => {
       })
       .catch(err => {
         console.log(err)
-        if(err.response.status === 403) {
+        if(err.response.status === 404) {
           setError('Incorrect username or password!')
         } else {
           setError('Oh no! Something went wrong')

@@ -21,5 +21,11 @@ initDb().then(async () => {
   require('./routes/clubRequestRouter')(NEAServer.router, NEAServer.database);
   require('./routes/membershipRouter')(NEAServer.router, NEAServer.database);
   require('./routes/clubRouter')(NEAServer.router, NEAServer.database);
+
+  // Add GET / route for health check - DigitalOcean requires a test route to check that deployment succeeds.
+  NEAServer.router.addRoute('GET', '/', request => {
+    request.sendSuccessResponse({message: "Server Online"});
+  }, [])
+
   NEAServer.startServer()
 });

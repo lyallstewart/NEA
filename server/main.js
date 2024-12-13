@@ -1,8 +1,8 @@
 const Server = require('./classes/server');
 const Router = require("./classes/router.js");
 const openDb = require("../server/database/db.js");
-require('dotenv').config();
 
+require('dotenv').config();
 const NEAServer = new Server(3002, [process.env.CLIENT_URL]);
 
 const router = new Router()

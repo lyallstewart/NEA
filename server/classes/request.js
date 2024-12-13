@@ -2,6 +2,8 @@
 and verbose calls for the response (separate function calls for the headers, status code and response body, duplicated
 per request). This is a thin wrapper encapsulating req and res, with some utility methods and syntactic sugar */
 
+const requestIp = require('request-ip');
+
 class Request {
   #req;
   #res;
@@ -27,6 +29,10 @@ class Request {
   get origin() { return this.#req.headers.origin; }
   get params() { return this.#params }
   set params(params) { this.#params = params }
+
+  getOriginIp() {
+    return requestIp.getClientIp(this.#req);
+  }
 
   processBody() {
     return new Promise((resolve, reject) => {

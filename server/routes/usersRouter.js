@@ -12,7 +12,8 @@ module.exports = (router, db) => {
       });
     } else {
       request.sendSuccessResponse({
-        isAuthenticated: false
+        isAuthenticated: false,
+        user: null
       })
     }
   }, []);
@@ -33,11 +34,11 @@ module.exports = (router, db) => {
       return;
     }
 
-    // Create user is valid, proceed.
+    // Create user is valid, proceed. Generate a salted hash and insert it into the database.
     bcrypt.genSalt(10, (err, salt) => {
-      if(err) request.sendError({code: 500, message: 'Internal Server Error'});
+      if(err) return request.sendError({code: 500, message: 'Internal Server Error'});
       bcrypt.hash(password, salt, async (err, hash) => {
-        if(err) request.sendError({code: 500, message: 'Internal Server Error'});
+        if(err) return request.sendError({code: 500, message: 'Internal Server Error'});
         try {
           await db.run(`INSERT INTO Users (id, email, passwordHash, firstName, lastName, isStaff, isSuperuser) 
                         VALUES (?, ?, ?, ?, ?, ?, ? )`,

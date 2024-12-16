@@ -7,18 +7,20 @@ module.exports = (router, db) => {
     const { name, summary, resources, time, fMembers } = request.body;
     if ( !name || !summary || !resources || !time || !fMembers ) {
       request.sendError({code: 400, message: "Invalid params"})
-    } else {
-      try {
-        await db.run(`INSERT INTO club_requests(
-          submitting_user, name, topic, resources, meeting, founders, isPending, isDeclined, isApproved, approvingUser) 
-          VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [request.session.user.email, name, summary, resources, time, fMembers, 1, 0, 0, null]);
-        request.sendSuccessResponse("Club request sent")
-      } catch (e) {
-        console.error(e);
-        request.sendError({code: 500, message: 'Internal Server Error'});
-      }
+      return;
+    } 
+    
+    try {
+      await db.run(`INSERT INTO club_requests(
+        submitting_user, name, topic, resources, meeting, founders, isPending, isDeclined, isApproved, approvingUser) 
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [request.session.user.email, name, summary, resources, time, fMembers, 1, 0, 0, null]);
+      request.sendSuccessResponse("Club request sent")
+    } catch (e) {
+      console.error(e);
+      request.sendError({code: 500, message: 'Internal Server Error'});
     }
+  
   }, [ verifyAuthStatus ])
 
   // Get all club requests associated with a single user

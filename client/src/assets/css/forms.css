@@ -1,73 +1,73 @@
 .input-group label {
-    font-family: Roboto, sans-serif;
-    font-weight: 500;
-    display: block;
-    color: var(--dark);
-    font-size: 17px;
-    margin-bottom: 3px;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  display: block;
+  color: var(--dark);
+  font-size: 17px;
+  margin-bottom: 3px;
 }
 
-.input-group input[type='text'],
-.input-group input[type='password'],
-.input-group input[type='email'] {
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid lightgrey;
-    font-family: Roboto, sans-serif;
-    padding: 8px;
-    outline: none;
-    color: var(--dark);
-    font-weight: 400;
-    font-size: 16px;
+.input-group input[type="text"],
+.input-group input[type="password"],
+.input-group input[type="email"] {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid lightgrey;
+  font-family: Roboto, sans-serif;
+  padding: 8px;
+  outline: none;
+  color: var(--dark);
+  font-weight: 400;
+  font-size: 16px;
 }
 
-.input-group input[type='textarea'] {
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid lightgrey;
-    font-family: Roboto, sans-serif;
-    padding: 8px;
-    outline: none;
-    color: var(--dark);
-    font-weight: 400;
-    font-size: 16px;
-    resize: vertical;
+.input-group input[type="textarea"] {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid lightgrey;
+  font-family: Roboto, sans-serif;
+  padding: 8px;
+  outline: none;
+  color: var(--dark);
+  font-weight: 400;
+  font-size: 16px;
+  resize: vertical;
 }
 
-.input-group input[type='textarea']:focus,
-.input-group input[type='text']:focus,
-.input-group input[type='email']:focus,
-.input-group input[type='password']:focus {
-    border-bottom: 2px solid var(--primary);
+.input-group input[type="textarea"]:focus,
+.input-group input[type="text"]:focus,
+.input-group input[type="email"]:focus,
+.input-group input[type="password"]:focus {
+  border-bottom: 2px solid var(--primary);
 }
 
 .input-group-horizontal {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 }
 
-form input[type='submit'] {
-    margin-top: 1em;
-    width: 100%;
+form input[type="submit"] {
+  margin-top: 1em;
+  width: 100%;
 }
 
 .input-group {
-    margin: 1em 0;
+  margin: 1em 0;
 }
 
 .form-error {
-    width: 100%;
-    text-align: center;
-    color: #f21242aa;
-    font-size: 16px;
-    height: 14px;
+  width: 100%;
+  text-align: center;
+  color: #f21242aa;
+  font-size: 16px;
+  height: 14px;
 }
 
 .form-success {
-    width: 100%;
-    text-align: center;
-    color: #06402Baa;
-    font-size: 16px;
-    height: 14px;
+  width: 100%;
+  text-align: center;
+  color: #06402baa;
+  font-size: 16px;
+  height: 14px;
 }

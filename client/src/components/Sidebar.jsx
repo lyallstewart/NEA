@@ -1,11 +1,11 @@
 import "../assets/css/sidebar.css";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-import EMSLogo from "../assets/img/ems-logo.jpeg"
-import {useContext, useEffect} from "react";
-import {UserContext} from "../context.jsx";
+import EMSLogo from "../assets/img/ems-logo.jpeg";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../context.jsx";
 import axios from "axios";
-import {useNavigate} from "react-router";
+import { useNavigate } from "react-router";
 
 import {
   BiHome,
@@ -16,26 +16,26 @@ import {
   BiUserCircle,
   BiLogOut,
   BiCheckSquare,
-  BiListCheck, BiUserPin
+  BiListCheck,
+  BiUserPin,
 } from "react-icons/bi";
 
 const Sidebar = () => {
-  const {user, setUser} = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogout = (e) => {
     e.preventDefault();
     axios({
-      method: 'POST',
+      method: "POST",
       url: `${import.meta.env.VITE_BASE_URL}/users/logout`,
       withCredentials: true,
-      body: {}
-    })
-      .then(res => {
-        setUser({isAuthenticated: false, user: null})
-        navigate('/login');
-      })
-  }
+      body: {},
+    }).then((res) => {
+      setUser({ isAuthenticated: false, user: null });
+      navigate("/login");
+    });
+  };
 
   return (
     <nav id="sidebar">
@@ -68,13 +68,13 @@ const Sidebar = () => {
             Club Requests
           </NavLink>
         </div>
-        { user.user.isSuperuser ? (
+        {user.user.isSuperuser ? (
           <>
             <hr id="sidebar-admin-separator" />
             <p id="sidebar-admin-header">Admin</p>
             <div className="sidebar-nav">
               <NavLink to="/admin/approvals">
-                <BiCheckSquare className="icon sidebar-nav-icon"/>
+                <BiCheckSquare className="icon sidebar-nav-icon" />
                 Club Approvals
               </NavLink>
               <NavLink to="/admin/logs">
@@ -87,21 +87,22 @@ const Sidebar = () => {
               </NavLink>
             </div>
           </>
-          ) : <></>
-        }
+        ) : (
+          <></>
+        )}
       </div>
       <div id="sidebar-account" className="sidebar-nav">
         <a onClick={handleLogout}>
-          <BiLogOut className="icon sidebar-nav-icon"/>
+          <BiLogOut className="icon sidebar-nav-icon" />
           Log Out
         </a>
         <a className="sidebar-account-button">
-          <BiUserCircle className="icon sidebar-nav-icon"/>
+          <BiUserCircle className="icon sidebar-nav-icon" />
           {user.user.firstName + " " + user.user.lastName}
         </a>
       </div>
     </nav>
   );
-}
+};
 
 export default Sidebar;

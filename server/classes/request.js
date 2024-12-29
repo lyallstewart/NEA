@@ -2,7 +2,7 @@
 and verbose calls for the response (separate function calls for the headers, status code and response body, duplicated
 per request). This is a thin wrapper encapsulating req and res, with some utility methods and syntactic sugar */
 
-const requestIp = require('request-ip');
+const requestIp = require("request-ip");
 
 class Request {
   #req;
@@ -21,14 +21,24 @@ class Request {
     this.bodyReady = this.processBody();
 
     // All responses will be JSON, so indicate straight away.
-    this.#res.setHeader('Content-Type', 'application/json');
+    this.#res.setHeader("Content-Type", "application/json");
   }
 
-  get method() { return this.#req.method; }
-  get url() { return this.#req.url; }
-  get origin() { return this.#req.headers.origin; }
-  get params() { return this.#params }
-  set params(params) { this.#params = params }
+  get method() {
+    return this.#req.method;
+  }
+  get url() {
+    return this.#req.url;
+  }
+  get origin() {
+    return this.#req.headers.origin;
+  }
+  get params() {
+    return this.#params;
+  }
+  set params(params) {
+    this.#params = params;
+  }
 
   getOriginIp() {
     return requestIp.getClientIp(this.#req);
@@ -37,11 +47,11 @@ class Request {
   processBody() {
     return new Promise((resolve, reject) => {
       if (["POST", "PUT", "DELETE"].includes(this.#req.method)) {
-        let bodyBuffer = '';
-        this.#req.on('data', dataChunk => {
+        let bodyBuffer = "";
+        this.#req.on("data", (dataChunk) => {
           bodyBuffer += dataChunk.toString();
         });
-        this.#req.on('end', () => {
+        this.#req.on("end", () => {
           try {
             this.body = JSON.parse(bodyBuffer);
           } catch (error) {
@@ -49,7 +59,7 @@ class Request {
           }
           resolve();
         });
-        this.#req.on('error', reject);
+        this.#req.on("error", reject);
       } else {
         resolve(); // Body not expected for GET etc
       }
@@ -60,13 +70,19 @@ class Request {
     /* CORS is a security mechanism limiting access to only authorised clients
        Formed of preflight request checking if actual request is allowed.
        If preflight, stop handling as no request content. If not, proceed to req handler. */
-    this.#res.setHeader('Access-Control-Allow-Origin', validOrigin);
-    this.#res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-    this.#res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-    this.#res.setHeader('Access-Control-Allow-Credentials', true)
+    this.#res.setHeader("Access-Control-Allow-Origin", validOrigin);
+    this.#res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization",
+    );
+    this.#res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS",
+    );
+    this.#res.setHeader("Access-Control-Allow-Credentials", true);
 
-    if(this.method === 'OPTIONS') {
-      this.#res.statusCode = 204 // No Content
+    if (this.method === "OPTIONS") {
+      this.#res.statusCode = 204; // No Content
       this.#res.end();
       return false; // Preflight handled, so stop.
     }
@@ -75,11 +91,11 @@ class Request {
 
   parseCookies() {
     // Called at the very start, before any handling takes place
-    if(this.#req.headers.cookie) {
-      this.#req.headers.cookie.split(';').forEach(cookie => {
-        const [key, value] = cookie.split('=').map(x => x.trim());
+    if (this.#req.headers.cookie) {
+      this.#req.headers.cookie.split(";").forEach((cookie) => {
+        const [key, value] = cookie.split("=").map((x) => x.trim());
         this.#cookies[key] = value;
-      })
+      });
     }
   }
 
@@ -90,16 +106,16 @@ class Request {
 
   setSession(uuid) {
     this.#outgoingCookies.push({
-      "sid": uuid, // Session ID
-    })
+      sid: uuid, // Session ID
+    });
   }
 
   setCookies() {
     // Called at the very end, just before sending a request.
-    if(!this.#outgoingCookies) return;
-    const cookies = []
-    this.#outgoingCookies.forEach(c => {
-      const [[key, value]] = Object.entries(c)
+    if (!this.#outgoingCookies) return;
+    const cookies = [];
+    this.#outgoingCookies.forEach((c) => {
+      const [[key, value]] = Object.entries(c);
       let cookie = `${key}=${encodeURIComponent(value)}`;
       if (key === "sid" && value === 0) {
         // Allow deletion of session cookies using a value of 0
@@ -111,7 +127,7 @@ class Request {
       cookie += `; HttpOnly`;
       cookies.push(cookie);
     });
-    this.#res.setHeader('Set-Cookie', cookies);
+    this.#res.setHeader("Set-Cookie", cookies);
   }
 
   // ---- Methods to handle responses to the client ----

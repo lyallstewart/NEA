@@ -1,63 +1,63 @@
 .auth-wrapper {
-    background-color: var(--bg);
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  background-color: var(--bg);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .auth-content {
-    background-color: white;
-    width: 650px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 3px;
-    border: 1px solid lightgrey;
+  background-color: white;
+  width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  border: 1px solid lightgrey;
 }
 
 .auth-content-main {
-    padding: 45px 100px 50px 100px;
-    width: 100%;
+  padding: 45px 100px 50px 100px;
+  width: 100%;
 }
 
 .auth-content-brand {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 25px;
 }
 
 .auth-content hr {
-    width: 600px;
-    border: 1px solid lightgrey;
-    margin: 0;
+  width: 600px;
+  border: 1px solid lightgrey;
+  margin: 0;
 }
 
 .auth-logo {
-    width: 300px;
+  width: 300px;
 }
 
 .auth-content-main h1 {
-    text-align: center;
-    margin: 0;
+  text-align: center;
+  margin: 0;
 }
 
 .auth-content form {
-    width: 100%;
+  width: 100%;
 }
 
 .auth-toggle {
-    display: block;
-    text-align: center;
-    width: 100% !important;
-    margin: auto;
-    color: var(--grey);
-    font-family: Roboto, sans-serif;
-    font-weight: 300;
+  display: block;
+  text-align: center;
+  width: 100% !important;
+  margin: auto;
+  color: var(--grey);
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
 }

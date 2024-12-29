@@ -45,7 +45,10 @@ class Request {
   }
 
   processBody() {
+    /* Request body arrives in chunks, so reassemble to a final body. */
+
     return new Promise((resolve, reject) => {
+      // If a request verb where a body is provided.
       if (["POST", "PUT", "DELETE"].includes(this.#req.method)) {
         let bodyBuffer = "";
         this.#req.on("data", (dataChunk) => {
@@ -55,6 +58,7 @@ class Request {
           try {
             this.body = JSON.parse(bodyBuffer);
           } catch (error) {
+            // Handle case of binary/image body that isn't valid JSON.
             this.body = bodyBuffer;
           }
           resolve();

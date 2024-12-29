@@ -4,8 +4,8 @@
 class Route {
   constructor() {
     this.children = {};
-    this.handlers = {};
-    this.middleware = {};
+    this.handlers = {}; // In form {'GET': getFunc, 'POST': postFunc}
+    this.middleware = {}; // As above.
 
     // Handle the case where the segment is a parameter, for example :id in /users/:id
     this.isParam = false;

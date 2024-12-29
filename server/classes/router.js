@@ -1,5 +1,6 @@
 const Route = require("./route");
 
+// Uses a prefix tree (Trie) to encode routes.
 class Router {
   #routeTrie;
   constructor() {

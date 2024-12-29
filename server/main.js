@@ -1,4 +1,4 @@
-const Server = require("./classes/server");
+const Server = require('./classes/server');
 const Router = require("./classes/router.js");
 const openDb = require("../server/database/db.js");
 
@@ -25,7 +25,7 @@ initDb().then(async () => {
   // Add GET / route for health check - DigitalOcean requires a test route to check that deployment succeeds.
   NEAServer.router.addRoute(
     "GET",
-    "/",
+    "/status",
     (request) => {
       request.sendSuccessResponse({ message: "Server Online" });
     },

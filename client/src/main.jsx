@@ -10,7 +10,7 @@ import RequestClub from "./pages/RequestClub.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import ClubApprovals from "./pages/admin/ClubApprovals.jsx";
-import {UserProvider} from "./context.jsx";
+import ContextProvider from "./contextProvider.jsx";
 import AuditLogs from "./pages/admin/AuditLogs.jsx";
 import UserManagement from "./pages/admin/UserManagement.jsx";
 import Admin from "./pages/admin/Admin.jsx";
@@ -73,10 +73,11 @@ const router = createBrowserRouter([
   }
 ])
 
+// Main entry point, this actually renders the app.
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <UserProvider>
+    <ContextProvider>
       <RouterProvider router={router} />
-    </UserProvider>
+    </ContextProvider>
   </StrictMode>,
 )

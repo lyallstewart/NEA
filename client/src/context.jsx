@@ -1,13 +1,14 @@
 // Context provides a means of accessing data from any component, regardless of its location in the tree.
-import {createContext, useState} from 'react';
+import {createContext} from 'react';
 
+/* Stores the currently logged-in user, and a subset of their account information */
 export const UserContext = createContext({})
-export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({isAuth: false, user: {}});
 
-  return (
-    <UserContext.Provider value={{user, setUser}}>
-      {children}
-    </UserContext.Provider>
-  )
-}
+/*
+- Stores the currently logged-in user (for cross-checking with the user state, to check they're both in sync post-auth
+operations), a list of clubs of which the user is a member, and a list of other clubs
+- This is likely to become rather large, so will need memoisation (https://react.dev/reference/react/memo) to optimise
+loading.
+*/
+export const ClubsContext = createContext({})
+

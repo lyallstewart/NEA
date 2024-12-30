@@ -3,6 +3,8 @@ import { Outlet, useNavigate } from "react-router";
 
 import "./assets/css/buttons.css";
 import "./assets/css/forms.css";
+import "./assets/css/tabs.css";
+
 import { useContext, useEffect } from "react";
 import { UserContext } from "./context.jsx";
 import axios from "axios";

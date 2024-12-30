@@ -1,22 +1,52 @@
 import Header from "../../components/Header.jsx";
+import { memo, useState } from "react";
+import TabButton from "../../components/TabButton.jsx";
 
 const UserManagement = () => {
+  const [tab, setTab] = useState(1);
+
+  let selectedTab;
+  switch (tab) {
+    case 1:
+      selectedTab = (
+        <>
+          <h2>Current Users</h2>
+        </>
+      );
+      break;
+    case 2:
+      selectedTab = (
+        <>
+          <h2>Allowlist</h2>
+        </>
+      );
+      break;
+  }
+
   return (
     <>
-      <Header title="User Management" />
-      <div className="content">
-        <div className="card">
-          <h2>Manage Allowlist</h2>
-          <h3>Allowlist Settings</h3>
-          <h3>Allowlist Import</h3>
-          <h3>Manual Allowlist</h3>
+      <Header title="User Management">
+        <div className="tab-group">
+          <TabButton
+            title="Current Users"
+            index={1}
+            isActive={tab === 1}
+            setIsActive={() => setTab(1)}
+          />
+          <TabButton
+            title="Manage Allowlist"
+            index={2}
+            isActive={tab === 2}
+            setIsActive={() => setTab(2)}
+          />
         </div>
-        <div className="card">
-          <h2>Manage Existing Users</h2>
-        </div>
-      </div>
+      </Header>
+      <div className="content">{selectedTab}</div>
     </>
   );
 };
 
-export default UserManagement;
+/* Memoisation stops re-rendering even if parents change, unless props change.
+Useful here because component includes the large get all users request, and the number of times this is called should be minimised.
+ */
+export default memo(UserManagement);

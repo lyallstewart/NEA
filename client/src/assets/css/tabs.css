@@ -1,0 +1,25 @@
+.tab-button {
+  background: none;
+  border: none;
+  outline: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  color: var(--grey);
+  font-weight: bold;
+  padding: 8px;
+  margin: 0 5px;
+}
+
+.tab-button:hover {
+  cursor: pointer;
+}
+
+.tab-button-active {
+  background-color: color-mix(in srgb, var(--primary) 20%, transparent);
+  border-radius: 4px;
+}
+
+.tab-group {
+  display: flex;
+  margin-left: 50px;
+}

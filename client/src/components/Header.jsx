@@ -3,7 +3,9 @@ import "../assets/css/header.css";
 const Header = ({ title, children }) => {
   return (
     <header>
-      <h1>{title}</h1>
+      <div className={"header-title"}>
+        <h1>{title}</h1>
+      </div>
       {children}
     </header>
   );

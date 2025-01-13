@@ -18,6 +18,7 @@ import {
   BiCheckSquare,
   BiListCheck,
   BiUserPin,
+  BiBuildingHouse,
 } from "react-icons/bi";
 
 const Sidebar = () => {
@@ -84,6 +85,10 @@ const Sidebar = () => {
               <NavLink to="/admin/users">
                 <BiUserPin className="icon sidebar-nav-icon" />
                 Manage Users
+              </NavLink>
+              <NavLink to="/admin/rooming">
+                <BiBuildingHouse className="icon sidebar-nav-icon" />
+                Manage Rooming
               </NavLink>
             </div>
           </>

@@ -1,6 +1,7 @@
 // Routes pertaining to User CRUD and authentication.
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
+const verifyAdminStatus = require("../middleware/verifyAdminStatus");
 
 module.exports = (router, db) => {
   // --- GET CURRENT SESSION ---
@@ -130,4 +131,15 @@ module.exports = (router, db) => {
     },
     [],
   );
+  
+  // ADMIN USER ROUTES
+  // --- Get All ---
+  router.addRoute(
+    "GET",
+    "/users/admin/all",
+    async (request) => {
+    
+    },
+    [ verifyAdminStatus ]
+  )
 };

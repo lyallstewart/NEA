@@ -1,0 +1,50 @@
+#rooming-room-selector {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#rooming-room-selector div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+#rooming-room-selector div select {
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+}
+
+#rooming-room-selector div p {
+  font-weight: bold;
+}
+
+.rooming-delete {
+  color: #f21242aa;
+  font-size: 20px;
+  margin-right: 15px;
+}
+
+.rooming-edit {
+  color: #d7840d;
+  font-size: 20px;
+}
+
+.rooming-delete:hover {
+  cursor: pointer;
+}
+
+.rooming-edit:hover {
+  cursor: pointer;
+}
+
+.rooming-table-side {
+  background-color: #eceff1;
+}
+
+.rooming-table {
+  margin-bottom: 15px;
+}

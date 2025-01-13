@@ -102,7 +102,6 @@ module.exports = (router, db) => {
       const club = await db.get(`SELECT * FROM club_requests WHERE id = ?`, [
         id,
       ]);
-      console.log(club.submitting_user);
       const result = await db.run(
         `INSERT INTO clubs(name, summary) VALUES(?, ?)`,
         [club.name, club.topic],

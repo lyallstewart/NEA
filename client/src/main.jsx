@@ -14,6 +14,9 @@ import ContextProvider from "./contextProvider.jsx";
 import AuditLogs from "./pages/admin/AuditLogs.jsx";
 import UserManagement from "./pages/admin/UserManagement.jsx";
 import Admin from "./pages/admin/Admin.jsx";
+import AllClubs from "./pages/AllClubs.jsx";
+import Club from "./pages/Club.jsx";
+import Rooming from "./pages/admin/rooming/Rooming.jsx";
 
 /* Define which app routes should be directed to which components */
 const router = createBrowserRouter([
@@ -27,7 +30,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/clubs",
-        element: <></>,
+        element: <AllClubs />,
+      },
+      {
+        path: "/clubs/:id",
+        element: <Club />,
       },
       {
         path: "/request",
@@ -56,6 +63,10 @@ const router = createBrowserRouter([
           {
             path: "/admin/users",
             element: <UserManagement />,
+          },
+          {
+            path: "/admin/rooming",
+            element: <Rooming />,
           },
         ],
       },

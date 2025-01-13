@@ -15,8 +15,8 @@
 }
 
 .tab-button-active {
-  background-color: color-mix(in srgb, var(--primary) 20%, transparent);
-  border-radius: 4px;
+  background: var(--primary);
+  color: var(--bg);
 }
 
 .tab-group {

@@ -8,6 +8,7 @@ import "./assets/css/tabs.css";
 import { useContext, useEffect } from "react";
 import { UserContext } from "./context.jsx";
 import axios from "axios";
+import Footer from "./components/Footer.jsx";
 
 const App = () => {
   const { user, setUser } = useContext(UserContext);
@@ -35,6 +36,7 @@ const App = () => {
       <main>
         {/* Actual site content is rendered into the Outlet by Router */}
         <Outlet />
+        <Footer />
       </main>
     </>
   );

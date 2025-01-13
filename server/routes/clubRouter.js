@@ -6,11 +6,12 @@ module.exports = (router, db) => {
     "/clubs/getAll",
     async (request) => {
       try {
-        const clubs = await db.getAll(`SELECT * FROM clubs`);
-
+        const clubs = await db.all(`SELECT * FROM clubs`);
+        const memberships = await db.all(`SELECT * FROM memberships WHERE userID = ?`, [request.session.user.email]);
         request.sendSuccessResponse({
           success: true,
           clubs,
+          memberships,
         });
       } catch (e) {
         console.error(e);

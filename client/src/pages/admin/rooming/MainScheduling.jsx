@@ -3,11 +3,12 @@ import { useContext, useEffect, useState } from "react";
 import TabButton from "../../../components/TabButton.jsx";
 import "../../../assets/css/rooming.css";
 import axios from "axios";
-import AboutRooming from "./AboutRooming.jsx";
-import TimetableRooming from "./TimetableRooming.jsx";
+import AboutScheduling from "./AboutScheduling.jsx";
+import TimetableScheduling from "./TimetableScheduling.jsx";
 import { RoomsContext } from "../../../context.jsx";
+import EventScheduling from "./EventScheduling.jsx";
 
-const MainRooming = () => {
+const MainScheduling = () => {
   const [tab, setTab] = useState(1);
   const { setRooms, setActiveRoom } = useContext(RoomsContext);
 
@@ -29,13 +30,13 @@ const MainRooming = () => {
   let selectedTab;
   switch (tab) {
     case 1:
-      selectedTab = <AboutRooming />;
+      selectedTab = <AboutScheduling />;
       break;
     case 2:
-      selectedTab = <TimetableRooming />;
+      selectedTab = <TimetableScheduling />;
       break;
     case 3:
-      selectedTab = <ManageEvents />;
+      selectedTab = <EventScheduling />;
       break;
   }
   return (
@@ -67,19 +68,4 @@ const MainRooming = () => {
   );
 };
 
-const ManageEvents = () => {
-  return (
-    <>
-      <h2>Manage Events</h2>
-      <div className="card">
-        <p>
-          Use this page to indicate room blocking for one-off events such as
-          meetings or interviews. For lesson and recurring room bookings, use
-          the &#34;Manage Timetable&#34; tab.
-        </p>
-      </div>
-    </>
-  );
-};
-
-export default MainRooming;
+export default MainScheduling;

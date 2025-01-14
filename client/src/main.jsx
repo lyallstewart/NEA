@@ -17,7 +17,7 @@ import AuditLogs from "./pages/admin/AuditLogs.jsx";
 import UserManagement from "./pages/admin/UserManagement.jsx";
 import AllClubs from "./pages/AllClubs.jsx";
 import Club from "./pages/Club.jsx";
-import MainRooming from "./pages/admin/rooming/MainRooming.jsx";
+import MainScheduling from "./pages/admin/rooming/MainScheduling.jsx";
 
 import "./assets/css/index.css";
 
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
           { path: "/admin/approvals", element: <ClubApprovals /> },
           { path: "/admin/logs", element: <AuditLogs /> },
           { path: "/admin/users", element: <UserManagement /> },
-          { path: "/admin/scheduling", element: <MainRooming /> },
+          { path: "/admin/scheduling", element: <MainScheduling /> },
         ],
       },
     ],

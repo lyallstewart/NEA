@@ -3,7 +3,7 @@ import { BiPencil, BiTrash } from "react-icons/bi";
 import axios from "axios";
 import { RoomsContext } from "../../../context.jsx";
 
-const AboutRooming = () => {
+const AboutScheduling = () => {
   const { rooms, setRooms } = useContext(RoomsContext);
   const [isEditing, setIsEditing] = useState(false);
   const [activeEditId, setActiveEditId] = useState(-1);
@@ -194,4 +194,4 @@ const AboutRooming = () => {
   );
 };
 
-export default AboutRooming;
+export default AboutScheduling;

@@ -1,9 +1,9 @@
-import TimetableRoomingTable from "./TimetableRoomingTable.jsx";
+import TimetableSchedulingTable from "./TimetableSchedulingTable.jsx";
 import { useContext, useEffect } from "react";
 import axios from "axios";
 import { BookingsContext, RoomsContext } from "../../../context.jsx";
 
-const TimetableRooming = () => {
+const TimetableScheduling = () => {
   const { setSlots, setBookings } = useContext(BookingsContext);
 
   const { rooms, activeRoom, setActiveRoom } = useContext(RoomsContext);
@@ -57,14 +57,14 @@ const TimetableRooming = () => {
         </div>
       </div>
       <div className="card">
-        <TimetableRoomingTable day={{ name: "Monday", id: 1 }} />
-        <TimetableRoomingTable day={{ name: "Tuesday", id: 2 }} />
-        <TimetableRoomingTable day={{ name: "Wednesday", id: 3 }} />
-        <TimetableRoomingTable day={{ name: "Thursday", id: 4 }} />
-        <TimetableRoomingTable day={{ name: "Friday", id: 5 }} />
+        <TimetableSchedulingTable day={{ name: "Monday", id: 1 }} />
+        <TimetableSchedulingTable day={{ name: "Tuesday", id: 2 }} />
+        <TimetableSchedulingTable day={{ name: "Wednesday", id: 3 }} />
+        <TimetableSchedulingTable day={{ name: "Thursday", id: 4 }} />
+        <TimetableSchedulingTable day={{ name: "Friday", id: 5 }} />
       </div>
     </>
   );
 };
 
-export default TimetableRooming;
+export default TimetableScheduling;

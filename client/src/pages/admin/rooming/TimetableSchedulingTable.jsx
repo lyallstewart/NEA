@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { BookingsContext, RoomsContext } from "../../../context.jsx";
 
-const TimetableRoomingTable = ({ day }) => {
+const TimetableSchedulingTable = ({ day }) => {
   const { slots } = useContext(BookingsContext);
 
   return (
@@ -118,4 +118,4 @@ const SlotAvailableIndicator = ({ day, slot, len }) => {
   );
 };
 
-export default TimetableRoomingTable;
+export default TimetableSchedulingTable;

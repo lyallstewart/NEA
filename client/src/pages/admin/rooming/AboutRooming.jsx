@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import axios from "axios";
+import { RoomsContext } from "../../../context.jsx";
 
-const AboutRooming = ({ rooms, refreshRooms }) => {
+const AboutRooming = () => {
+  const { rooms, setRooms } = useContext(RoomsContext);
   const [isEditing, setIsEditing] = useState(false);
   const [activeEditId, setActiveEditId] = useState(-1);
   const [name, setName] = useState("");
@@ -16,7 +18,8 @@ const AboutRooming = ({ rooms, refreshRooms }) => {
       withCredentials: true,
     }).then((res) => {
       if (res.data.success) {
-        refreshRooms();
+        /* Now the room has been removed serverside, also clear it from context. */
+        setRooms((prevState) => prevState.rooms.filter((r) => r.id !== id));
       }
     });
   };
@@ -36,19 +39,24 @@ const AboutRooming = ({ rooms, refreshRooms }) => {
       method: "PUT",
       url: `${import.meta.env.VITE_BASE_URL}/rooms/room/${activeEditId}`,
       withCredentials: true,
-      data: {
-        name,
-        location,
-        capacity,
-      },
+      data: { name, location, capacity },
     }).then((res) => {
       if (res.data.success) {
+        /* Also update the room information clientside */
+        setRooms((prevState) =>
+          prevState.map((room) => {
+            if (room.id === activeEditId) {
+              return { ...room, name, location, capacity };
+            }
+            return room;
+          }),
+        );
+
         setIsEditing(false);
         setActiveEditId(-1);
         setLocation("");
         setCapacity("");
         setName("");
-        refreshRooms();
       }
     });
   };
@@ -66,12 +74,14 @@ const AboutRooming = ({ rooms, refreshRooms }) => {
       },
     }).then((res) => {
       if (res.data.success) {
+        /* Create the new room clientside too */
+        setRooms((prevState) => [...prevState.rooms, res.data.newRoom]);
+
         setIsEditing(false);
         setActiveEditId(-1);
         setLocation("");
         setCapacity("");
         setName("");
-        refreshRooms();
       }
     });
   };

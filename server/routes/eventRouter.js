@@ -14,8 +14,10 @@ module.exports = (router, db) => {
         await db.run(
           `INSERT INTO rooms(name, capacity, location)
            VALUES (?, ?, ?)`, [name, capacity, location])
+        const newRoom = await db.get(`SELECT * FROM rooms WHERE name = ? AND capacity = ? AND location = ?`, [name, capacity, location]);
         request.sendSuccessResponse({
           success: true,
+          newRoom
         })
       } catch (error) {
         console.error(error)
@@ -128,4 +130,43 @@ module.exports = (router, db) => {
       }
     }
   )
+  
+  router.addRoute(
+    "POST",
+    "/bookings/create",
+    async (request) => {
+      const { room, slot, day } = request.body;
+      try {
+        await db.run(`INSERT INTO bookings(slotDay, slotName, roomId) VALUES(?, ?, ?)`, [day, slot, room])
+        const newBooking = await db.get(`SELECT * FROM bookings WHERE slotDay = ? AND slotName = ? AND roomId = ?`, [day, slot, room])
+        request.sendSuccessResponse({
+          success: true,
+          newBooking
+        })
+      } catch (error) {
+        console.error(error)
+        request.sendError({code: 500, message: "Internal Server Error"})
+      }
+    },
+    [ verifyAdminStatus ]
+  )
+  
+  router.addRoute(
+    "DELETE",
+    "/bookings/delete",
+    async (request) => {
+      const { room, slot, day } = request.body;
+      try {
+        await db.run(`DELETE FROM bookings WHERE slotDay = ? AND slotName = ? and roomId = ?`, [day, slot, room])
+        request.sendSuccessResponse({
+          success: true,
+        })
+      } catch (error) {
+        console.error(error)
+        request.sendError({code: 500, message: "Internal Server Error"})
+      }
+    },
+    [ verifyAdminStatus ]
+  )
+  
 };

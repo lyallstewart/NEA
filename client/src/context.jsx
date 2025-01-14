@@ -11,3 +11,9 @@ operations), a list of clubs of which the user is a member, and a list of other 
 loading.
 */
 export const ClubsContext = createContext({});
+
+/* Stores (generated on admin views) all bookings and possibly bookable slots. */
+export const BookingsContext = createContext({});
+
+/* Stores all rooms */
+export const RoomsContext = createContext({});

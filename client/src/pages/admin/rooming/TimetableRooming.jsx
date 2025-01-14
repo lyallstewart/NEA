@@ -1,23 +1,15 @@
-import RoomingTable from "./RoomingTable.jsx";
-import { useEffect, useState } from "react";
+import TimetableRoomingTable from "./TimetableRoomingTable.jsx";
+import { useContext, useEffect } from "react";
 import axios from "axios";
+import { BookingsContext, RoomsContext } from "../../../context.jsx";
 
-const TimetableRooming = ({ rooms, activeRoom, setActiveRoom }) => {
-  const [slots, setSlots] = useState([]);
-  const [bookings, setBookings] = useState([]);
+const TimetableRooming = () => {
+  const { setSlots, setBookings } = useContext(BookingsContext);
+
+  const { rooms, activeRoom, setActiveRoom } = useContext(RoomsContext);
+
   useEffect(() => {
-    refreshBookings();
-
-    axios({
-      method: "GET",
-      url: `${import.meta.env.VITE_BASE_URL}/slots/all`,
-      withCredentials: true,
-    }).then((res) => {
-      setSlots(res.data.slots);
-    });
-  }, [activeRoom, rooms, slots]);
-
-  const refreshBookings = () => {
+    // Fetch slots and bookings.
     axios({
       method: "GET",
       url: `${import.meta.env.VITE_BASE_URL}/slots/bookings`,
@@ -25,7 +17,14 @@ const TimetableRooming = ({ rooms, activeRoom, setActiveRoom }) => {
     }).then((res) => {
       setBookings(res.data.bookings);
     });
-  };
+    axios({
+      method: "GET",
+      url: `${import.meta.env.VITE_BASE_URL}/slots/all`,
+      withCredentials: true,
+    }).then((res) => {
+      setSlots(res.data.slots);
+    });
+  }, [rooms]);
 
   // noinspection JSUnresolvedReference
   return (
@@ -46,7 +45,6 @@ const TimetableRooming = ({ rooms, activeRoom, setActiveRoom }) => {
             className="room-select"
             onChange={(e) => {
               setActiveRoom(rooms.find((r) => r.name === e.target.value));
-              refreshBookings();
             }}
             value={activeRoom.name}
           >
@@ -59,45 +57,11 @@ const TimetableRooming = ({ rooms, activeRoom, setActiveRoom }) => {
         </div>
       </div>
       <div className="card">
-        <RoomingTable
-          day={"Monday"}
-          slots={slots.filter((s) => s.day === 1)}
-          bookings={bookings.filter(
-            (b) => b.day === 1 && b.roomName === activeRoom.name,
-          )}
-        />
-        <RoomingTable
-          day={"Tuesday"}
-          slots={slots.filter((s) => s.day === 2)}
-          bookings={bookings.filter(
-            (b) => b.day === 2 && b.roomName === activeRoom.name,
-          )}
-          activeRoom={activeRoom.name}
-        />
-        <RoomingTable
-          day={"Wednesday"}
-          slots={slots.filter((s) => s.day === 3)}
-          bookings={bookings.filter(
-            (b) => b.day === 3 && b.roomName === activeRoom.name,
-          )}
-          activeRoom={activeRoom.name}
-        />
-        <RoomingTable
-          day={"Thursday"}
-          slots={slots.filter((s) => s.day === 4)}
-          bookings={bookings.filter(
-            (b) => b.day === 4 && b.roomName === activeRoom.name,
-          )}
-          activeRoom={activeRoom.name}
-        />
-        <RoomingTable
-          day={"Friday"}
-          slots={slots.filter((s) => s.day === 5)}
-          bookings={bookings.filter(
-            (b) => b.day === 5 && b.roomName === activeRoom.name,
-          )}
-          activeRoom={activeRoom.name}
-        />
+        <TimetableRoomingTable day={{ name: "Monday", id: 1 }} />
+        <TimetableRoomingTable day={{ name: "Tuesday", id: 2 }} />
+        <TimetableRoomingTable day={{ name: "Wednesday", id: 3 }} />
+        <TimetableRoomingTable day={{ name: "Thursday", id: 4 }} />
+        <TimetableRoomingTable day={{ name: "Friday", id: 5 }} />
       </div>
       <button className="btn-primary" type="submit">
         Save Changes

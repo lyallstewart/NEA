@@ -47,4 +47,5 @@
 
 .rooming-table {
   margin-bottom: 15px;
+  table-layout: auto;
 }

@@ -1,15 +1,15 @@
 import Header from "../../../components/Header.jsx";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TabButton from "../../../components/TabButton.jsx";
 import "../../../assets/css/rooming.css";
 import axios from "axios";
 import AboutRooming from "./AboutRooming.jsx";
 import TimetableRooming from "./TimetableRooming.jsx";
+import { RoomsContext } from "../../../context.jsx";
 
-const Rooming = () => {
+const MainRooming = () => {
   const [tab, setTab] = useState(1);
-  const [rooms, setRooms] = useState([]);
-  const [activeRoom, setActiveRoom] = useState({});
+  const { setRooms, setActiveRoom } = useContext(RoomsContext);
 
   useEffect(() => {
     refreshRooms();
@@ -29,16 +29,10 @@ const Rooming = () => {
   let selectedTab;
   switch (tab) {
     case 1:
-      selectedTab = <AboutRooming rooms={rooms} refreshRooms={refreshRooms} />;
+      selectedTab = <AboutRooming />;
       break;
     case 2:
-      selectedTab = (
-        <TimetableRooming
-          rooms={rooms}
-          activeRoom={activeRoom}
-          setActiveRoom={setActiveRoom}
-        />
-      );
+      selectedTab = <TimetableRooming />;
       break;
     case 3:
       selectedTab = <ManageEvents />;
@@ -46,10 +40,10 @@ const Rooming = () => {
   }
   return (
     <>
-      <Header title="Rooming">
+      <Header title="Manage Scheduling">
         <div className="tab-group">
           <TabButton
-            title="About Rooming"
+            title="Manage Rooms"
             index={1}
             isActive={tab === 1}
             setIsActive={() => setTab(1)}
@@ -88,4 +82,4 @@ const ManageEvents = () => {
   );
 };
 
-export default Rooming;
+export default MainRooming;

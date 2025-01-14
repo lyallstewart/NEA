@@ -84,7 +84,7 @@ table caption {
 
 table th {
   border: 1px solid #dededf;
-  background-color: #eceff1;
+  background-color: color-mix(in srgb, var(--primary) 20%, transparent);;
   padding: 5px;
 }
 

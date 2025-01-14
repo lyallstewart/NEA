@@ -102,4 +102,30 @@ module.exports = (router, db) => {
     },
     [verifyAuthStatus]
   )
+  
+  router.addRoute(
+    "GET",
+    "/slots/bookings",
+    async (request) => {
+      try {
+        const bookings = await db.all(`
+            SELECT bookings.*, slots.name as slotName, slots.day, slots.startTime, slots.endTime, rooms.name as roomName
+            FROM bookings
+            JOIN slots
+                ON bookings.slotDay = slots.day
+                AND bookings.slotName = slots.name
+            JOIN rooms
+                ON bookings.roomId = rooms.id;
+        `);
+        
+        request.sendSuccessResponse({
+          success: true,
+          bookings
+        })
+      } catch (error) {
+        console.error(error)
+        request.sendError({code: 500, message: "Internal Server Error"})
+      }
+    }
+  )
 };

@@ -36,5 +36,8 @@ initDb().then(async () => {
     [],
   );
   
+
+  
+  
   NEAServer.startServer();
 });

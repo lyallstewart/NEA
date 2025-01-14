@@ -42,7 +42,7 @@
 }
 
 .rooming-table-side {
-  background-color: #eceff1;
+  background-color: var(--bg);
 }
 
 .rooming-table {

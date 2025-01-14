@@ -1,31 +1,35 @@
 import { useEffect, useState } from "react";
 
-const RoomingTable = ({ day, slots }) => {
+const RoomingTable = ({ day, slots, bookings }) => {
   const [timeslots, setTimeslots] = useState([]);
-  const [times, setTimes] = useState([]);
-  // const [availability, setAvailability] = useState([]);
+  const [availability, setAvailability] = useState([]);
 
   useEffect(() => {
     const timeslotItems = [];
-    const timeItems = [];
-    // const availabilityItems = [];
+    const availabilityItems = [];
 
     for (let slot of slots) {
-      timeslotItems.push(<td key={slot.name}>{slot.name}</td>);
-      timeItems.push(
-        <td key={slot.slot}>
-          {slot.startTime} - {slot.endTime}
+      timeslotItems.push(
+        <td key={slot.name}>
+          {slot.name} <br /> ({slot.startTime + " - " + slot.endTime})
         </td>,
       );
-      // availabilityItems.push(
-      //   <td key={slot.slot}>{slot.busy ? "Yes" : "No"}</td>,
-      // );
+
+      const booking = bookings?.find((b) => b.slotName === slot.name);
+      availabilityItems.push(
+        <td key={slot.slot}>
+          <input type="checkbox" checked={booking} />
+        </td>,
+      );
     }
 
     setTimeslots(timeslotItems);
-    setTimes(timeItems);
-    // setAvailability(availabilityItems);
+    setAvailability(availabilityItems);
   }, [slots]);
+
+  const handleToggle = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <table className="rooming-table">
@@ -40,12 +44,8 @@ const RoomingTable = ({ day, slots }) => {
           {timeslots}
         </tr>
         <tr>
-          <td className="rooming-table-side">Time</td>
-          {times}
-        </tr>
-        <tr>
-          <td className="rooming-table-side">Free?</td>
-          TODO
+          <td className="rooming-table-side">Booked?</td>
+          {availability}
         </tr>
       </tbody>
     </table>

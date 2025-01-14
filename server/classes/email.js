@@ -23,6 +23,10 @@ class Email {
     // Regular expression taken from https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
     return email.match(`/^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$/i;`)
   }
+  
+  addAttachments() {
+    // TODO
+  }
 }
 
 module.exports = { EmailService, Email };

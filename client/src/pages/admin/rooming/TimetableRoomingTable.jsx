@@ -6,43 +6,54 @@ const TimetableRoomingTable = ({ day }) => {
   const { slots } = useContext(BookingsContext);
 
   return (
-    <table className="rooming-table">
-      <thead>
-        <tr>
-          <th colSpan={slots.length + 1}>{day.name}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td className="rooming-table-side">Slot</td>
-          {slots
-            .filter((s) => s.day === day.id)
-            .map((slot) => {
-              return (
-                <td key={slot.name}>
-                  {slot.name} <br /> ({slot.startTime + " - " + slot.endTime})
-                </td>
-              );
-            })}
-        </tr>
-        <tr>
-          <td className="rooming-table-side">Booked?</td>
-          {slots
-            .filter((s) => s.day === day.id)
-            .map((s) => (
-              <SlotAvailableIndicator
-                slot={s}
-                day={day}
-                key={`${s.name}-${day.id}`}
-              />
-            ))}
-        </tr>
-      </tbody>
-    </table>
+    <>
+      <h4 className="rooming-table-header">{day.name}</h4>
+      <table className="rooming-table">
+        <tbody>
+          <tr>
+            <td style={{ width: "100px" }} className="rooming-table-side">
+              Slot
+            </td>
+            {slots
+              .filter((s) => s.day === day.id)
+              .map((slot) => {
+                return <td key={slot.name}>{slot.name}</td>;
+              })}
+          </tr>
+          <tr>
+            <td style={{ width: "100px" }} className="rooming-table-side">
+              Time
+            </td>
+            {slots
+              .filter((s) => s.day === day.id)
+              .map((slot) => {
+                return (
+                  <td key={slot.name}>
+                    {slot.startTime + " - " + slot.endTime}
+                  </td>
+                );
+              })}
+          </tr>
+          <tr>
+            <td className="rooming-table-side">Booked?</td>
+            {slots
+              .filter((s) => s.day === day.id)
+              .map((s) => (
+                <SlotAvailableIndicator
+                  slot={s}
+                  day={day}
+                  key={`${s.name}-${day.id}`}
+                  len={slots.length}
+                />
+              ))}
+          </tr>
+        </tbody>
+      </table>
+    </>
   );
 };
 
-const SlotAvailableIndicator = ({ day, slot }) => {
+const SlotAvailableIndicator = ({ day, slot, len }) => {
   const { activeRoom } = useContext(RoomsContext);
   const { bookings, setBookings } = useContext(BookingsContext);
   const [isChecked, setIsChecked] = useState(false);

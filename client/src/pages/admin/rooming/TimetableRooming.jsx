@@ -63,9 +63,6 @@ const TimetableRooming = () => {
         <TimetableRoomingTable day={{ name: "Thursday", id: 4 }} />
         <TimetableRoomingTable day={{ name: "Friday", id: 5 }} />
       </div>
-      <button className="btn-primary" type="submit">
-        Save Changes
-      </button>
     </>
   );
 };

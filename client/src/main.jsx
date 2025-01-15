@@ -17,7 +17,7 @@ import AuditLogs from "./pages/admin/AuditLogs.jsx";
 import UserManagement from "./pages/admin/UserManagement.jsx";
 import AllClubs from "./pages/AllClubs.jsx";
 import Club from "./pages/Club.jsx";
-import MainScheduling from "./pages/admin/rooming/MainScheduling.jsx";
+import MainScheduling from "./pages/admin/scheduling/MainScheduling.jsx";
 
 import "./assets/css/index.css";
 

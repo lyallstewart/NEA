@@ -1,30 +1,9 @@
 import TimetableSchedulingTable from "./TimetableSchedulingTable.jsx";
-import { useContext, useEffect } from "react";
-import axios from "axios";
-import { BookingsContext, RoomsContext } from "../../../context.jsx";
+import { useContext } from "react";
+import { RoomsContext } from "../../../context.jsx";
 
 const TimetableScheduling = () => {
-  const { setSlots, setBookings } = useContext(BookingsContext);
-
   const { rooms, activeRoom, setActiveRoom } = useContext(RoomsContext);
-
-  useEffect(() => {
-    // Fetch slots and bookings.
-    axios({
-      method: "GET",
-      url: `${import.meta.env.VITE_BASE_URL}/slots/bookings`,
-      withCredentials: true,
-    }).then((res) => {
-      setBookings(res.data.bookings);
-    });
-    axios({
-      method: "GET",
-      url: `${import.meta.env.VITE_BASE_URL}/slots/all`,
-      withCredentials: true,
-    }).then((res) => {
-      setSlots(res.data.slots);
-    });
-  }, [rooms]);
 
   // noinspection JSUnresolvedReference
   return (
@@ -34,7 +13,8 @@ const TimetableScheduling = () => {
         <p>
           Use this page to indicate room blocking for weekly recurring events
           such as lessons, CX and PS. For one-off events such as meetings or
-          interviews, use the &#34;Manage Events&#34; tab.
+          interviews, use the &#34;Manage Events&#34; tab. One-off events will
+          be shown (in grey) but cannot be edited here.
         </p>
       </div>
       <div id="rooming-room-selector">

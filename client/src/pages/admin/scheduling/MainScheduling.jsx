@@ -5,15 +5,32 @@ import "../../../assets/css/rooming.css";
 import axios from "axios";
 import AboutScheduling from "./AboutScheduling.jsx";
 import TimetableScheduling from "./TimetableScheduling.jsx";
-import { RoomsContext } from "../../../context.jsx";
+import { BookingsContext, RoomsContext } from "../../../context.jsx";
 import EventScheduling from "./EventScheduling.jsx";
 
 const MainScheduling = () => {
   const [tab, setTab] = useState(1);
   const { setRooms, setActiveRoom } = useContext(RoomsContext);
+  const { setBookings, setSlots } = useContext(BookingsContext);
 
   useEffect(() => {
     refreshRooms();
+
+    // Fetch slots and bookings.
+    axios({
+      method: "GET",
+      url: `${import.meta.env.VITE_BASE_URL}/slots/bookings`,
+      withCredentials: true,
+    }).then((res) => {
+      setBookings(res.data.bookings);
+    });
+    axios({
+      method: "GET",
+      url: `${import.meta.env.VITE_BASE_URL}/slots/all`,
+      withCredentials: true,
+    }).then((res) => {
+      setSlots(res.data.slots);
+    });
   }, []);
 
   const refreshRooms = () => {

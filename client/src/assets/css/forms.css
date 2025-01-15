@@ -10,7 +10,9 @@
 .input-group input[type="text"],
 .input-group input[type="password"],
 .input-group input[type="email"],
-.input-group input[type="number"]{
+.input-group input[type="number"],
+.input-group input[type="date"],
+.form-select {
   width: 100%;
   border: none;
   border-bottom: 2px solid lightgrey;
@@ -39,7 +41,9 @@
 .input-group input[type="text"]:focus,
 .input-group input[type="email"]:focus,
 .input-group input[type="password"]:focus,
-.input-group input[type="number"]:focus{
+.input-group input[type="date"]:focus,
+.input-group input[type="number"]:focus,
+.form-select:focus {
   border-bottom: 2px solid var(--primary);
 }
 
@@ -76,4 +80,8 @@ form input[type="submit"] {
   color: #06402baa;
   font-size: 16px;
   height: 14px;
+}
+
+.form-select {
+  background: none;
 }

@@ -35,7 +35,6 @@ const MainScheduling = () => {
       url: `${import.meta.env.VITE_BASE_URL}/ttevents/all`,
       withCredentials: true,
     }).then((res) => {
-      console.log(res.data);
       setTTEvents(res.data.events);
     });
   }, []);

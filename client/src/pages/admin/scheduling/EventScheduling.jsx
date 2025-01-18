@@ -14,7 +14,7 @@ const EventScheduling = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const [name, setName] = useState("");
-  const [room, setRoom] = useState("");
+  const [room, setRoom] = useState(rooms[0]);
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [slot, setSlot] = useState("");
@@ -44,8 +44,9 @@ const EventScheduling = () => {
     const targetEvent = ttEvents.find((e) => e.id === id);
 
     setIsEditing(true);
-    setName(targetEvent.capacity);
-    setRoom(rooms.find((room) => room.id === targetEvent.id));
+    setName(targetEvent.name);
+    setRoom(rooms.find((room) => room.id === targetEvent.roomId));
+    handleDateChange(targetEvent.date); // Updating date needs a bit more work (updating slots), so can't just be a simple state update.
     setSlot(
       slots.find(
         (slot) =>
@@ -59,7 +60,6 @@ const EventScheduling = () => {
   };
 
   const handleSaveEdit = (e) => {
-    console.log(room, name, slot);
     e.preventDefault();
     axios({
       method: "PUT",
@@ -70,7 +70,18 @@ const EventScheduling = () => {
       if (res.data.success) {
         /* Also update the room information clientside */
         setTTEvents((prevState) =>
-          prevState.map((e) => (e.id === activeEditId ? res.data.newEvent : e)),
+          prevState.map((e) =>
+            e.id === activeEditId
+              ? {
+                  ...e,
+                  name,
+                  description,
+                  date,
+                  slotName: slot.name,
+                  roomId: room.id,
+                }
+              : e,
+          ),
         );
 
         setIsEditing(false);
@@ -86,7 +97,6 @@ const EventScheduling = () => {
 
   const handleCreate = (e) => {
     e.preventDefault();
-    console.log(slot, room);
     axios({
       method: "POST",
       url: `${import.meta.env.VITE_BASE_URL}/ttevents/create`,
@@ -101,7 +111,6 @@ const EventScheduling = () => {
     }).then((res) => {
       if (res.data.success) {
         /* Create the new event clientside too */
-        console.log(res.data);
         setTTEvents((prevState) => [...prevState, res.data.newTTEvent]);
 
         setSlotPickerOpts([]);
@@ -114,9 +123,9 @@ const EventScheduling = () => {
     });
   };
 
-  const handleDateChange = (e) => {
-    const newDate = new Date(e.target.value);
-    setDate(e.target.value);
+  const handleDateChange = (dateVal) => {
+    const newDate = new Date(dateVal);
+    setDate(dateVal);
 
     if (!isNaN(newDate)) {
       if ([0, 6].includes(newDate.getDate())) return;
@@ -208,7 +217,7 @@ const EventScheduling = () => {
                 required
                 min={new Date().toISOString().split("T")[0]}
                 value={date}
-                onChange={handleDateChange}
+                onChange={(e) => handleDateChange(e.target.value)}
               />
             </div>
             <div className="input-group-horizontal-field input-group">

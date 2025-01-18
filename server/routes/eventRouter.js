@@ -277,15 +277,8 @@ module.exports = (router, db) => {
            WHERE id = ?`,
           [name, description, date, slotName, roomId, id],
         );
-        const newEvent = await db.get(
-          `SELECT *
-           FROM timetable_events
-           WHERE id = ?`,
-          [returned.lastID],
-        );
         request.sendSuccessResponse({
           success: true,
-          newEvent,
         });
       } catch (error) {
         console.error(error);

@@ -1,3 +1,3 @@
-# NEA
+# Club Management Software
 
 My submission for the Non-Examined Assessment section of AQA A-Level Computer Science.

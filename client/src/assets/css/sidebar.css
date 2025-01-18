@@ -70,8 +70,8 @@
 
 .sidebar-nav a,
 .sidebar-account a {
-  padding: 7px;
-  margin: 5px 0;
+  padding: 5px;
+  margin: 2px 0;
   color: var(--dark);
   text-decoration: none;
   font-family: Roboto, sans-serif;

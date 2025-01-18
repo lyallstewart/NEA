@@ -11,15 +11,14 @@ import EventScheduling from "./EventScheduling.jsx";
 const MainScheduling = () => {
   const [tab, setTab] = useState(1);
   const { setRooms, setActiveRoom } = useContext(RoomsContext);
-  const { setBookings, setSlots } = useContext(BookingsContext);
+  const { setBookings, setSlots, setTTEvents } = useContext(BookingsContext);
 
   useEffect(() => {
     refreshRooms();
-
-    // Fetch slots and bookings.
+    // Fetch slots, bookings and events.
     axios({
       method: "GET",
-      url: `${import.meta.env.VITE_BASE_URL}/slots/bookings`,
+      url: `${import.meta.env.VITE_BASE_URL}/bookings/all`,
       withCredentials: true,
     }).then((res) => {
       setBookings(res.data.bookings);
@@ -30,6 +29,14 @@ const MainScheduling = () => {
       withCredentials: true,
     }).then((res) => {
       setSlots(res.data.slots);
+    });
+    axios({
+      method: "GET",
+      url: `${import.meta.env.VITE_BASE_URL}/ttevents/all`,
+      withCredentials: true,
+    }).then((res) => {
+      console.log(res.data);
+      setTTEvents(res.data.events);
     });
   }, []);
 

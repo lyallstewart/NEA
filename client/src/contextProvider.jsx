@@ -14,6 +14,7 @@ const ContextProvider = ({ children }) => {
   const [clubs, setClubs] = useState(clubsInitialState);
 
   const [bookings, setBookings] = useState([]);
+  const [ttEvents, setTTEvents] = useState([]); // Timetabled events
 
   const [slots, setSlots] = useState([]);
 
@@ -24,7 +25,14 @@ const ContextProvider = ({ children }) => {
     <UserContext.Provider value={{ user, setUser }}>
       <ClubsContext.Provider value={{ clubs, setClubs }}>
         <BookingsContext.Provider
-          value={{ bookings, setBookings, slots, setSlots }}
+          value={{
+            bookings,
+            setBookings,
+            slots,
+            setSlots,
+            ttEvents,
+            setTTEvents,
+          }}
         >
           <RoomsContext.Provider
             value={{ rooms, setRooms, activeRoom, setActiveRoom }}

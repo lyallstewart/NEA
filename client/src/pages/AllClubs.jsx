@@ -1,56 +1,47 @@
 import Header from "../components/Header.jsx";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { ClubsContext } from "../context.jsx";
 import ClubEntry from "../components/ClubEntry.jsx";
-import Club from "./Club.jsx";
 
 const AllClubs = () => {
-  const [clubs, setClubs] = useState({ member: [], general: [] });
+  const { clubs, clubMemberships, setClubs, setClubMemberships } =
+    useContext(ClubsContext);
+
+  // Stores an array of IDs corresponding to clubs, of which the user is a member
+  const [userMemberships, setUserMemberships] = useState([]);
+  // As above, but not a member
+  const [otherMemberships, setOtherMemberships] = useState([]);
 
   useEffect(() => {
-    axios({
-      method: "GET",
-      url: `${import.meta.env.VITE_BASE_URL}/clubs/getAll`,
-      withCredentials: true,
-    })
-      .then((res) => {
-        parseMemberships(res.data.clubs, res.data.memberships);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  const parseMemberships = (clubs, memberships) => {
-    // Filter clubs into those of which the current user is a member, and those not.
-    let memTemp = [];
-    let nonMemTemp = [];
-
-    clubs.forEach((c) => {
-      const membership = memberships.find((m) => c.id === m.clubID);
-      console.log(c, membership);
-      if (!membership?.isMember) {
-        nonMemTemp.push(c);
+    let tempMember = [];
+    let tempNotMember = [];
+    clubMemberships.forEach((membership) => {
+      if (membership.isMember) {
+        tempMember.push(membership.clubID);
       } else {
-        memTemp.push(c);
+        tempNotMember.push(membership.clubID);
       }
-
-      setClubs({ member: memTemp, general: nonMemTemp });
     });
-  };
+    setUserMemberships(tempMember);
+    setOtherMemberships(tempNotMember);
+  }, [clubs, clubMemberships]);
 
   return (
     <>
       <Header title={"All Clubs"} />
       <div className="content">
         <h2>Your Clubs</h2>
-        {clubs.member.map((club) => (
-          <ClubEntry club={club} key={club.id} isMember={true} />
-        ))}
+        {clubs
+          .filter((club) => userMemberships.includes(club.id))
+          .map((club) => (
+            <ClubEntry key={club.id} club={club} isMember={true} />
+          ))}
         <h2>Explore Clubs</h2>
-        {clubs.general.map((club) => (
-          <ClubEntry club={club} key={club.id} isMember={false} />
-        ))}
+        {clubs
+          .filter((club) => !userMemberships.includes(club.id))
+          .map((club) => (
+            <ClubEntry key={club.id} club={club} isMember={true} />
+          ))}
       </div>
     </>
   );

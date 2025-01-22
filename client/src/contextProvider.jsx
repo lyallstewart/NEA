@@ -1,17 +1,18 @@
 import { useState } from "react";
 import {
-  ClubsContext,
-  UserContext,
   BookingsContext,
+  ClubsContext,
   RoomsContext,
+  UserContext,
 } from "./context.jsx";
 
 const ContextProvider = ({ children }) => {
   const userInitialState = { isAuth: false, user: {} };
   const [user, setUser] = useState(userInitialState);
 
-  const clubsInitialState = { user: null, memberClubs: [], otherClubs: [] };
-  const [clubs, setClubs] = useState(clubsInitialState);
+  const [clubs, setClubs] = useState([]);
+  const [clubMemberships, setClubMemberships] = useState([]);
+  const [activeClub, setActiveClub] = useState(null);
 
   const [bookings, setBookings] = useState([]);
   const [ttEvents, setTTEvents] = useState([]); // Timetabled events
@@ -23,7 +24,16 @@ const ContextProvider = ({ children }) => {
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <ClubsContext.Provider value={{ clubs, setClubs }}>
+      <ClubsContext.Provider
+        value={{
+          clubs,
+          setClubs,
+          clubMemberships,
+          setClubMemberships,
+          activeClub,
+          setActiveClub,
+        }}
+      >
         <BookingsContext.Provider
           value={{
             bookings,
@@ -35,7 +45,12 @@ const ContextProvider = ({ children }) => {
           }}
         >
           <RoomsContext.Provider
-            value={{ rooms, setRooms, activeRoom, setActiveRoom }}
+            value={{
+              rooms,
+              setRooms,
+              activeRoom,
+              setActiveRoom,
+            }}
           >
             {children}
           </RoomsContext.Provider>

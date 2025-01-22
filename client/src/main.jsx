@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 /* LAYOUT AND DATA PROVIDING / AUTH CHECKING COMPONENTS */
 import App from "./App.jsx";
@@ -10,13 +10,13 @@ import ContextProvider from "./contextProvider.jsx";
 /* PAGES */
 import Home from "./pages/Home.jsx";
 import RequestClub from "./pages/RequestClub.jsx";
-import Login from "./pages/Login.jsx";
-import Signup from "./pages/Signup.jsx";
+import Login from "./pages/auth/Login.jsx";
+import Signup from "./pages/auth/Signup.jsx";
 import ClubApprovals from "./pages/admin/ClubApprovals.jsx";
 import AuditLogs from "./pages/admin/AuditLogs.jsx";
 import UserManagement from "./pages/admin/UserManagement.jsx";
 import AllClubs from "./pages/AllClubs.jsx";
-import Club from "./pages/Club.jsx";
+import Club from "./pages/club/Club.jsx";
 import MainScheduling from "./pages/admin/scheduling/MainScheduling.jsx";
 
 import "./assets/css/index.css";

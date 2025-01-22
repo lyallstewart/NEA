@@ -6,16 +6,31 @@ import "./assets/css/forms.css";
 import "./assets/css/tabs.css";
 
 import { useContext, useEffect } from "react";
-import { UserContext } from "./context.jsx";
+import { ClubsContext, UserContext } from "./context.jsx";
 import axios from "axios";
 import Footer from "./components/Footer.jsx";
 
 const App = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
+  const { setClubs, setClubMemberships } = useContext(ClubsContext);
   const navigate = useNavigate();
 
   /* As App is rendered parent to all routes (except login/signup), the auth check takes place on all routes that require authentication to view.  */
   useEffect(() => {
+    axios({
+      method: "GET",
+      url: `${import.meta.env.VITE_BASE_URL}/clubs/getAll`,
+      withCredentials: true,
+    })
+      .then((res) => {
+        setClubs(res.data.clubs);
+        setClubMemberships(res.data.memberships);
+        console.log(res.data.memberships);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     axios({
       method: "GET",
       withCredentials: true,

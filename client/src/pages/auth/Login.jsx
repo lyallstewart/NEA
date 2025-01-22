@@ -1,9 +1,9 @@
-import "../assets/css/auth_pages.css";
-import emsLogoFull from "../assets/img/ems-logo-full.jpg";
+import "../../assets/css/auth_pages.css";
+import emsLogoFull from "../../assets/img/ems-logo-full.jpg";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { UserContext } from "../context.jsx";
+import { UserContext } from "../../context.jsx";
 import { NavLink } from "react-router-dom";
 
 const Login = () => {

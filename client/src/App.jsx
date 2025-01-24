@@ -28,6 +28,7 @@ const App = () => {
       } else {
         setUser({ isAuthenticated: true, user: res.data.user });
 
+        // If authenticated, proceed with fetching
         axios({
           method: "GET",
           url: `${import.meta.env.VITE_BASE_URL}/clubs/getAll`,

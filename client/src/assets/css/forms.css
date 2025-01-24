@@ -3,7 +3,7 @@
   font-weight: 500;
   display: block;
   color: var(--dark);
-  font-size: 17px;
+  font-size: 16px;
   margin-bottom: 3px;
 }
 
@@ -17,7 +17,7 @@
   border: none;
   border-bottom: 2px solid lightgrey;
   font-family: Roboto, sans-serif;
-  padding: 8px;
+  padding: 6px;
   outline: none;
   color: var(--dark);
   font-weight: 400;

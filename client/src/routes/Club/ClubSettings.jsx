@@ -1,5 +1,9 @@
 const ClubSettings = () => {
-  return <></>;
+  return (
+    <>
+      <h2>Settings</h2>
+    </>
+  );
 };
 
 export default ClubSettings;

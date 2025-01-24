@@ -1,13 +1,16 @@
 import { useParams } from "react-router";
-import Header from "../../components/Header.jsx";
+import Header from "../../components/Layout/Header.jsx";
 import { useContext, useEffect, useState } from "react";
 import { ClubsContext } from "../../context.jsx";
-import TabButton from "../../components/TabButton.jsx";
+import TabButton from "../../components/Shared/TabButton.jsx";
 import { BiCalendar, BiChat, BiCog, BiSolidMegaphone } from "react-icons/bi";
+
 import ClubAnnouncements from "./ClubAnnouncements.jsx";
 import ClubMessages from "./ClubMessages.jsx";
 import ClubEvents from "./ClubEvents.jsx";
 import ClubSettings from "./ClubSettings.jsx";
+
+import "../../assets/css/club.css";
 
 const Club = () => {
   const { clubs, activeClub, setActiveClub } = useContext(ClubsContext);

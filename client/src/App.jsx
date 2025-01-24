@@ -1,4 +1,4 @@
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/Layout/Sidebar.jsx";
 import { Outlet, useNavigate } from "react-router";
 
 import "./assets/css/buttons.css";
@@ -8,7 +8,7 @@ import "./assets/css/tabs.css";
 import { useContext, useEffect } from "react";
 import { ClubsContext, UserContext } from "./context.jsx";
 import axios from "axios";
-import Footer from "./components/Footer.jsx";
+import Footer from "./components/Layout/Footer.jsx";
 
 const App = () => {
   const { setUser } = useContext(UserContext);

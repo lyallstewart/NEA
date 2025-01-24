@@ -1,7 +1,7 @@
-const Server = require('./classes/server');
+const Server = require("./classes/server");
 const Router = require("./classes/router.js");
 const openDb = require("../server/database/db.js");
-const {createTransport} = require("nodemailer");
+const { createTransport } = require("nodemailer");
 
 require("dotenv").config();
 
@@ -25,7 +25,7 @@ initDb().then(async () => {
   require("./routes/membershipRouter")(NEAServer.router, NEAServer.database);
   require("./routes/clubRouter")(NEAServer.router, NEAServer.database);
   require("./routes/eventRouter")(NEAServer.router, NEAServer.database);
-  
+
   // Add GET / route for health check - DigitalOcean requires a test route to check that deployment succeeds.
   NEAServer.router.addRoute(
     "GET",
@@ -35,9 +35,6 @@ initDb().then(async () => {
     },
     [],
   );
-  
 
-  
-  
   NEAServer.startServer();
 });

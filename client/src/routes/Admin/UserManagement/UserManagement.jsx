@@ -1,6 +1,6 @@
-import Header from "../../components/Header.jsx";
+import Header from "../../../components/Layout/Header.jsx";
 import { memo, useState } from "react";
-import TabButton from "../../components/TabButton.jsx";
+import TabButton from "../../../components/Shared/TabButton.jsx";
 
 const UserManagement = () => {
   const [tab, setTab] = useState(1);

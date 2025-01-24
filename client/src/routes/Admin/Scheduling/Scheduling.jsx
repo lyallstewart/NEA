@@ -1,6 +1,6 @@
-import Header from "../../../components/Header.jsx";
+import Header from "../../../components/Layout/Header.jsx";
 import { useContext, useEffect, useState } from "react";
-import TabButton from "../../../components/TabButton.jsx";
+import TabButton from "../../../components/Shared/TabButton.jsx";
 import "../../../assets/css/rooming.css";
 import axios from "axios";
 import AboutScheduling from "./AboutScheduling.jsx";
@@ -8,7 +8,7 @@ import TimetableScheduling from "./TimetableScheduling.jsx";
 import { BookingsContext, RoomsContext } from "../../../context.jsx";
 import EventScheduling from "./EventScheduling.jsx";
 
-const MainScheduling = () => {
+const Scheduling = () => {
   const [tab, setTab] = useState(1);
   const { setRooms, setActiveRoom } = useContext(RoomsContext);
   const { setBookings, setSlots, setTTEvents } = useContext(BookingsContext);
@@ -91,4 +91,4 @@ const MainScheduling = () => {
   );
 };
 
-export default MainScheduling;
+export default Scheduling;

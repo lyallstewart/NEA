@@ -6,7 +6,7 @@ import {
   BiErrorCircle,
   BiMessageX,
 } from "react-icons/bi";
-import Header from "../../components/Header.jsx";
+import Header from "../../../components/Layout/Header.jsx";
 
 const ClubApprovals = () => {
   const [requests, setRequests] = useState([]);

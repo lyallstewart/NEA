@@ -1,24 +1,24 @@
-import "../assets/css/sidebar.css";
+import "../../assets/css/sidebar.css";
 import { NavLink } from "react-router-dom";
 
-import EMSLogo from "../assets/img/ems-logo.jpeg";
-import { useContext, useEffect } from "react";
-import { UserContext } from "../context.jsx";
+import EMSLogo from "../../assets/img/ems-logo.jpeg";
+import { useContext } from "react";
+import { UserContext } from "../../context.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
 import {
-  BiHome,
-  BiFolderPlus,
   BiCalendar,
+  BiCalendarStar,
+  BiCheckSquare,
   BiCog,
+  BiFolderPlus,
+  BiHome,
+  BiListCheck,
+  BiLogOut,
   BiMessageAltDetail,
   BiUserCircle,
-  BiLogOut,
-  BiCheckSquare,
-  BiListCheck,
   BiUserPin,
-  BiCalendarStar,
 } from "react-icons/bi";
 
 const Sidebar = () => {

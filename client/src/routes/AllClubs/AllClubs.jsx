@@ -1,7 +1,7 @@
-import Header from "../components/Header.jsx";
+import Header from "../../components/Layout/Header.jsx";
 import { useContext, useEffect, useState } from "react";
-import { ClubsContext } from "../context.jsx";
-import ClubEntry from "../components/ClubEntry.jsx";
+import { ClubsContext } from "../../context.jsx";
+import ClubEntry from "../../components/Shared/ClubEntry.jsx";
 
 const AllClubs = () => {
   const { clubs, clubMemberships, setClubs, setClubMemberships } =

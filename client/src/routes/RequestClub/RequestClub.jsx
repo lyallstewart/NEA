@@ -1,10 +1,10 @@
-import "../assets/css/request_club.css";
+import "../../assets/css/request_club.css";
 
-import { BiErrorCircle, BiTimeFive, BiCheckCircle } from "react-icons/bi";
+import { BiCheckCircle, BiErrorCircle, BiTimeFive } from "react-icons/bi";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Header from "../components/Header.jsx";
+import Header from "../../components/Layout/Header.jsx";
 
 const RequestClub = () => {
   const [name, setName] = useState("");

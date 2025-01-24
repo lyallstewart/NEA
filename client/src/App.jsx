@@ -19,20 +19,6 @@ const App = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: `${import.meta.env.VITE_BASE_URL}/clubs/getAll`,
-      withCredentials: true,
-    })
-      .then((res) => {
-        setClubs(res.data.clubs);
-        setClubMemberships(res.data.memberships);
-        console.log(res.data.memberships);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios({
-      method: "GET",
       withCredentials: true,
       url: `${import.meta.env.VITE_BASE_URL}/users/getCurrentUser`,
     }).then((res) => {
@@ -41,6 +27,20 @@ const App = () => {
         navigate("/login");
       } else {
         setUser({ isAuthenticated: true, user: res.data.user });
+
+        axios({
+          method: "GET",
+          url: `${import.meta.env.VITE_BASE_URL}/clubs/getAll`,
+          withCredentials: true,
+        })
+          .then((res) => {
+            setClubs(res.data.clubs);
+            setClubMemberships(res.data.memberships);
+            console.log(res.data.memberships);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     });
   }, []);

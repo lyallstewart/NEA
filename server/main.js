@@ -6,7 +6,11 @@ const {createTransport} = require("nodemailer");
 require("dotenv").config();
 
 const PORT = process.env.PORT ?? 3003;
-const NEAServer = new Server(PORT, [process.env.CLIENT_URL]);
+const NEAServer = new Server(PORT, [
+  process.env.CLIENT_URL,
+  "https://nea.lyallstewart.com",
+  "http://localhost:3000",
+]);
 
 const router = new Router();
 NEAServer.registerRouter(router);

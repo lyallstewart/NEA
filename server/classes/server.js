@@ -12,8 +12,9 @@ class Server {
   #requestQueue;
   #pendingRequest;
   #allowedOrigins;
+
   constructor(port, allowedOrigins) {
-    this.#port = port || 3001;
+    this.#port = port || 3003;
     this.#server = null;
     this.database = null;
     this.#requestQueue = [];
@@ -24,12 +25,13 @@ class Server {
   startServer() {
     this.#server = http.createServer((req, res) => {
       const request = new Request(req, res);
+      console.log("Request!" + request.url);
       this.addRequestToQueue(request);
     });
 
-    this.#server.listen(this.#port, () => {
+    this.#server.listen(this.#port, async () => {
       console.log(`Server running on port ${this.#port}`);
-      this.processQueue();
+      await this.processQueue();
     });
   }
 
@@ -55,23 +57,28 @@ class Server {
     while (true) {
       while (this.#requestQueue.length > 0) {
         const request = this.#requestQueue.shift();
+        console.log("request 2" + request.url);
         const allowedOrigin = this.#allowedOrigins.includes(request.origin)
           ? request.origin
-          : "*";
+          : false;
         // If not a preflight request, continue handling.
-        if (request.handleCORS(allowedOrigin)) {
+        if (request.handleCORS(allowedOrigin) && allowedOrigin) {
           request.parseCookies();
           // Extract the session from cookies, fetch user info from the DB, and attach to request.
           const sid = request.getSession();
           if (sid) {
             try {
               const session = await this.database.get(
-                `SELECT * FROM sessions WHERE sid = ?`,
+                `SELECT *
+                 FROM sessions
+                 WHERE sid = ?`,
                 [sid],
               );
               if (session) {
                 const user = await this.database.get(
-                  `SELECT * FROM Users WHERE email = ?`,
+                  `SELECT *
+                   FROM Users
+                   WHERE email = ?`,
                   [session.uemail],
                 );
                 if (user) {
@@ -85,10 +92,17 @@ class Server {
               });
             }
           }
-          console.log(
-            `LOGGING: ${request.method} ${request.url} by ${request.session?.user?.email ? request.session.user.email : "Anonymous"} (${request.getOriginIp()})`,
-          );
-          await this.router.handleRequest(request, request.url);
+          try {
+            console.log(
+              `LOGGING: ${request.method} ${request.url} by ${request.session?.user?.email ? request.session.user.email : "Anonymous"} (${request.getOriginIp()})`,
+            );
+            await this.router.handleRequest(request, request.url);
+          } catch (e) {
+            request.sendError({
+              code: 500,
+              message: "Internal Server Error",
+            });
+          }
         }
       }
 

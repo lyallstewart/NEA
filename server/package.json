@@ -2,13 +2,14 @@
   "name": "nea-server",
   "version": "0.0.1",
   "description": "The serverside code for my NEA",
-  "main": "main.js",
+  "main": "src/main.ts",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon main.js"
+    "dev": "node dist/main.js",
+    "build": "tsc && copyfiles -u 1 src/.env dist/ && copyfiles -u 2 src/database/database.db dist/database/"
   },
   "repository": {
     "type": "git",
@@ -28,5 +29,12 @@
     "request-ip": "^3.3.0",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.10",
+    "copyfiles": "^2.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "type": "module"
 }

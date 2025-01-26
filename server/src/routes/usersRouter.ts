@@ -1,9 +1,9 @@
 // Routes pertaining to User CRUD and authentication.
-const bcrypt = require("bcrypt");
-const crypto = require("crypto");
-const verifyAdminStatus = require("../middleware/verifyAdminStatus");
+import bcrypt from "bcrypt";
+import crypto from "crypto";
+import verifyAdminStatus from "../middleware/verifyAdminStatus.js";
 
-module.exports = (router, db) => {
+const addUsersRoutes = (router, db) => {
   // --- GET CURRENT SESSION ---
   router.addRoute(
     "GET",
@@ -57,8 +57,8 @@ module.exports = (router, db) => {
             request.sendError({ code: 500, message: "Internal Server Error" });
           try {
             await db.run(
-              `INSERT INTO Users (id, email, passwordHash, firstName, lastName, isStaff, isSuperuser) 
-                        VALUES (?, ?, ?, ?, ?, ?, ? )`,
+              `INSERT INTO Users (id, email, passwordHash, firstName, lastName, isStaff, isSuperuser)
+               VALUES (?, ?, ?, ?, ?, ?, ?)`,
               [null, email, hash, firstName, lastName, false, false],
             );
             request.sendSuccessResponse({
@@ -95,10 +95,11 @@ module.exports = (router, db) => {
           if (result === true) {
             //As much as this annoys me, if (result) does not suffice as other truthy vals may be passed.
             const sessionUUID = crypto.randomUUID();
-            await db.run(`INSERT INTO Sessions (sid, uemail) VALUES (?, ?)`, [
-              sessionUUID,
-              user.email,
-            ]);
+            await db.run(
+              `INSERT INTO Sessions (sid, uemail)
+               VALUES (?, ?)`,
+              [sessionUUID, user.email],
+            );
             request.setSession(sessionUUID);
 
             request.sendSuccessResponse({
@@ -121,7 +122,12 @@ module.exports = (router, db) => {
     "POST",
     "/users/logout",
     async (request) => {
-      await db.run(`DELETE FROM sessions WHERE sid = ?`, [request.session.id]);
+      await db.run(
+        `DELETE
+         FROM sessions
+         WHERE sid = ?`,
+        [request.session.id],
+      );
       request.setSession(0);
       request.session = false;
 
@@ -131,15 +137,12 @@ module.exports = (router, db) => {
     },
     [],
   );
-  
+
   // ADMIN USER ROUTES
   // --- Get All ---
-  router.addRoute(
-    "GET",
-    "/users/admin/all",
-    async (request) => {
-    
-    },
-    [ verifyAdminStatus ]
-  )
+  router.addRoute("GET", "/users/admin/all", async (request) => {}, [
+    verifyAdminStatus,
+  ]);
 };
+
+export default addUsersRoutes;

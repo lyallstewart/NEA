@@ -8,6 +8,7 @@ import ClubAnnouncements from "./ClubAnnouncements.jsx";
 import ClubMessages from "./ClubMessages.jsx";
 import ClubEvents from "./ClubEvents.jsx";
 import ClubSettings from "./ClubSettings.jsx";
+import "../../assets/css/club.css";
 
 const Club = () => {
   const { clubs, activeClub, setActiveClub } = useContext(ClubsContext);

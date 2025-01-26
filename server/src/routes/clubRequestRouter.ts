@@ -1,7 +1,7 @@
-const verifyAuthStatus = require("../middleware/verifyAuthStatus");
-const verifyAdminStatus = require("../middleware/verifyAdminStatus");
+import verifyAdminStatus from "../middleware/verifyAdminStatus.js";
+import verifyAuthStatus from "../middleware/verifyAuthStatus.js";
 
-module.exports = (router, db) => {
+const addClubRequestRoutes = (router, db) => {
   // Create a new club request
   router.addRoute(
     "POST",
@@ -13,9 +13,9 @@ module.exports = (router, db) => {
       } else {
         try {
           await db.run(
-            `INSERT INTO club_requests(
-          submitting_user, name, topic, resources, meeting, founders, isPending, isDeclined, isApproved, approvingUser) 
-          VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            `INSERT INTO club_requests(submitting_user, name, topic, resources, meeting, founders,
+                                       isPending, isDeclined, isApproved, approvingUser)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
               request.session.user.email,
               name,
@@ -47,7 +47,9 @@ module.exports = (router, db) => {
       const user = request.session.user.email;
       try {
         const reqs = await db.all(
-          `SELECT * FROM club_requests WHERE submitting_user = ?`,
+          `SELECT *
+           FROM club_requests
+           WHERE submitting_user = ?`,
           [user],
         );
         if (!reqs) {
@@ -72,7 +74,8 @@ module.exports = (router, db) => {
     "/requests/all",
     async (request) => {
       try {
-        const reqs = await db.all(`SELECT * from club_requests`);
+        const reqs = await db.all(`SELECT *
+                                   from club_requests`);
         request.sendSuccessResponse({
           success: true,
           requests: reqs,
@@ -94,22 +97,30 @@ module.exports = (router, db) => {
     }
     try {
       await db.run(
-        `UPDATE club_requests SET isPending = 0, isApproved = 1, approvingUser = ? WHERE id = ?`,
+        `UPDATE club_requests
+         SET isPending     = 0,
+             isApproved    = 1,
+             approvingUser = ?
+         WHERE id = ?`,
         [request.session.user.email, id],
       );
 
       // Actually create the club, and provision the requesting user as admin
-      const club = await db.get(`SELECT * FROM club_requests WHERE id = ?`, [
-        id,
-      ]);
+      const club = await db.get(
+        `SELECT *
+         FROM club_requests
+         WHERE id = ?`,
+        [id],
+      );
       const result = await db.run(
-        `INSERT INTO clubs(name, summary) VALUES(?, ?)`,
+        `INSERT INTO clubs(name, summary)
+         VALUES (?, ?)`,
         [club.name, club.topic],
       );
       await db.run(
-        `INSERT INTO 
-           memberships(userID, clubID, isMember, isAdmin, canCreateEvents, canManageMessages, canManageMembers)
-           VALUES(?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO memberships(userID, clubID, isMember, isAdmin, canCreateEvents, canManageMessages,
+                                 canManageMembers)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
         [club.submitting_user, result.lastID, 1, 1, 1, 1, 1],
       );
 
@@ -131,7 +142,11 @@ module.exports = (router, db) => {
     }
     try {
       await db.run(
-        `UPDATE club_requests SET isPending = ?, isDeclined = ?, approvingUser = ? WHERE id = ?`,
+        `UPDATE club_requests
+         SET isPending     = ?,
+             isDeclined    = ?,
+             approvingUser = ?
+         WHERE id = ?`,
         [0, 1, request.session.user.email, id],
       );
       request.sendSuccessResponse({
@@ -142,3 +157,5 @@ module.exports = (router, db) => {
     }
   });
 };
+
+export default addClubRequestRoutes;

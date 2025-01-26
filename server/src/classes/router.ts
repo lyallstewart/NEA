@@ -1,16 +1,22 @@
-const Route = require("./route");
+import Route from "./route.js";
 
 // Uses a prefix tree (Trie) to encode routes.
 class Router {
-  #routeTrie;
+  private routeTrie;
+
   constructor() {
-    this.#routeTrie = new Route();
+    this.routeTrie = new Route();
   }
 
-  addRoute(method, url, handler, middleware = []) {
+  addRoute(
+    method: string,
+    url: string,
+    handler: Function,
+    middleware: Function[] = [],
+  ) {
     // Split the route. /users/:id becomes ["", "users", ":id"] so filter out falsy values.
     const routeSegments = url.split("/").filter((segment) => !!segment);
-    let curr = this.#routeTrie;
+    let curr = this.routeTrie;
 
     for (const seg of routeSegments) {
       const isParam = seg.startsWith(":");
@@ -31,7 +37,7 @@ class Router {
     // Remove route segments that are false when bool coerced, i.e. ""
     const routeSegments = url.split("/").filter((segment) => !!segment);
     const routeParams = [];
-    let curr = this.#routeTrie;
+    let curr = this.routeTrie;
     for (const seg of routeSegments) {
       if (curr.children[seg]) {
         curr = curr.children[seg];
@@ -77,4 +83,4 @@ class Router {
   }
 }
 
-module.exports = Router;
+export default Router;

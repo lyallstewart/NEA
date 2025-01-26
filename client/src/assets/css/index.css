@@ -67,6 +67,10 @@ h6 {
   padding: 10px;
 }
 
+.card-title {
+  font-weight: bold;
+}
+
 table {
   border: 1px solid #dededf;
   height: 100%;

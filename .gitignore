@@ -1,4 +1,6 @@
-node_modules/
 .idea
 database.sqbpro
 .env
+
+dist/
+node_modules/

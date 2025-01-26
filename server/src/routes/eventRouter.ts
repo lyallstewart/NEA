@@ -1,6 +1,7 @@
-const verifyAdminStatus = require("../middleware/verifyAdminStatus");
-const verifyAuthStatus = require("../middleware/verifyAuthStatus");
-module.exports = (router, db) => {
+import verifyAdminStatus from "../middleware/verifyAdminStatus.js";
+import verifyAuthStatus from "../middleware/verifyAuthStatus.js";
+
+const addEventRoutes = (router, db) => {
   router.addRoute(
     "POST",
     "/rooms/create",
@@ -131,7 +132,12 @@ module.exports = (router, db) => {
   router.addRoute("GET", "/bookings/all", async (request) => {
     try {
       const bookings = await db.all(`
-          SELECT bookings.*, slots.name as slotName, slots.day, slots.startTime, slots.endTime, rooms.name as roomName
+          SELECT bookings.*,
+                 slots.name as slotName,
+                 slots.day,
+                 slots.startTime,
+                 slots.endTime,
+                 rooms.name as roomName
           FROM bookings
                    JOIN slots
                         ON bookings.slotDay = slots.day
@@ -291,7 +297,7 @@ module.exports = (router, db) => {
   router.addRoute("GET", "/ttevents/all", async (request) => {
     try {
       /* Select the event itself and the relevant room/timeslot information. Date is an actual date,
-         while slots.day is an integer (1: Mon, 5: Fri) so map between these on join. */
+                           while slots.day is an integer (1: Mon, 5: Fri) so map between these on join. */
       const events = await db.all(`
           SELECT timetable_events.*,
                  slots.name AS slotName,
@@ -317,3 +323,5 @@ module.exports = (router, db) => {
     }
   });
 };
+
+export default addEventRoutes;

@@ -9,4 +9,4 @@ const verifyAdminStatus = (request, next) => {
   }
 };
 
-module.exports = verifyAdminStatus;
+export default verifyAdminStatus;

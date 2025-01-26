@@ -9,4 +9,4 @@ const verifyAuthStatus = async (request, next) => {
   }
 };
 
-module.exports = verifyAuthStatus;
+export default verifyAuthStatus;

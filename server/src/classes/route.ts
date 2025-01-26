@@ -2,6 +2,11 @@
 // i.e. GET /users/:id and DELETE /users/:id
 
 class Route {
+  public children: { [key: string]: Route };
+  public handlers: { [key: string]: Function };
+  public middleware: { [key: string]: Function };
+  public isParam: boolean;
+
   constructor() {
     this.children = {};
     this.handlers = {}; // In form {'GET': getFunc, 'POST': postFunc}
@@ -12,4 +17,4 @@ class Route {
   }
 }
 
-module.exports = Route;
+export default Route;
